@@ -9,6 +9,7 @@ import api from "./utils/api";
 import { useEffect, useState } from "react";
 import { News } from "./model/news";
 import { formatDate } from "./utils/date";
+import { PreviewUmkm } from "./model/umkm";
 
 const container = {
   hidden: { opacity: 0, y: 10 },
@@ -37,21 +38,41 @@ const newsAnimate = {
 export default function Home() {
   const router = useRouter();
   const [previewNews, setPreviewNews] = useState<News[]>();
+  const [previewUmkm, setPreviewUmkm] = useState<PreviewUmkm[]>();
+
+  const toNews = () => {
+    router.push("/berita")
+  }
+
+  const toUMKM = () => {
+    router.push("/umkm")
+  }
+
+  const getUMKM = async () => {
+    try {
+      await api.get("/umkm/preview").then(res => {
+        setPreviewUmkm(res.data.data)
+      })
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   const getNews = async () => {
     try {
       await api.get("/news/preview").then((res) => {
         setPreviewNews(res.data.data);
       })
-      
+
     } catch (error) {
       console.log(error)
     }
   }
 
-  useEffect(()=>{
+  useEffect(() => {
     getNews();
-  },[])
+    getUMKM();
+  }, [])
 
   return (
     <div>
@@ -101,7 +122,8 @@ export default function Home() {
                 animate="visible"
                 custom={3}
                 variants={container}
-                className="hover:ml-2 transition-all flex w-fit gap-10 flex-row border-1 border-primary pr-2 pl-5 font-medium py-2 rounded-4xl items-center"
+                onClick={()=>toUMKM()}
+                className="hover:ml-2 cursor-pointer transition-all flex w-fit gap-10 flex-row border-1 border-primary pr-2 pl-5 font-medium py-2 rounded-4xl items-center"
               >
                 <p>Lihat UMKM</p>
                 <img src="icons/right.svg" className="w-6" alt="right" />
@@ -156,7 +178,7 @@ export default function Home() {
                 variants={newsAnimate}
                 className="font-bold text-4xl mt-3 line-clamp-2"
               >
-               {previewNews?.[0].title}
+                {previewNews?.[0].title}
               </motion.h1>
 
               <motion.p
@@ -174,7 +196,7 @@ export default function Home() {
         <div className="mt-10">
           <Title size="text-lg" title="Berita Lainnya" />
           <div className="mt-5 flex flex-row gap-4">
-            {previewNews?.filter((_,index)=> index !== 0)?.map((news, index) => {
+            {previewNews?.filter((_, index) => index !== 0)?.map((news, index) => {
               return (
                 <div key={index}>
                   <img
@@ -200,7 +222,7 @@ export default function Home() {
             })}
           </div>
           <div className="w-full mt-15 flex flex justify-center">
-            <div className="hover:ml-2 transition-all flex w-fit gap-10 flex-row border-1 border-primary pr-2 pl-5 font-medium py-2 rounded-4xl items-center">
+            <div onClick={() => toNews()} className="cursor-pointer hover:ml-2 transition-all flex w-fit gap-10 flex-row border-1 border-primary pr-2 pl-5 font-medium py-2 rounded-4xl items-center">
               <p>Lihat Selengkapnya</p>
               <img src="icons/right.svg" className="w-6" alt="right" />
             </div>
@@ -208,21 +230,21 @@ export default function Home() {
           <div className="mt-20">
             <Title size="text-3xl" title="UMKM Terdaftar" />
             <div className="grid grid-cols-4 gap-5 mt-10">
-              {Array.from({ length: 8 }).map((_, index) => {
+              {previewUmkm?.map((umkm, index) => {
                 return (
-                  <div className="flex flex-col">
-                    <img src="image/umkm.jpg" alt="umkm" />
+                  <div className="flex flex-col cursor-pointer" key={index}>
+                    <img src={umkm.image || ""} className="h-50 object-cover rounded-md" alt="umkm" />
                     <h1 className="font-bold text-lg mt-4">
-                      Lorem Ipsum Dolor sit Amet. dat dat dat
+                      {umkm.name}
                     </h1>
-                    <div>
+                    <div className="font-medium">
                       <div className="flex flex-row gap-2 mt-4">
                         <img
                           src="icons/location.svg"
                           className="w-3"
                           alt="location"
                         />
-                        <p>Jl. Bibis Tama No. 49/1</p>
+                        <p>{umkm.address}</p>
                       </div>
                       <div className="flex flex-row gap-2 mt-2">
                         <img
@@ -230,15 +252,20 @@ export default function Home() {
                           className="w-3"
                           alt="product"
                         />
-                        <p>20 Produk</p>
+                        <p>{umkm.jumlahProduk} Produk</p>
                       </div>
+                    </div>
+                    <div className="bg-primary px-5 py-1 text-white rounded-4xl w-fit text-medium mt-4">
+                      <p>{umkm.category}</p>
                     </div>
                   </div>
                 );
-              })}
+              })
+
+              }
             </div>
             <div className="w-full mt-15 flex flex justify-center">
-              <div className="hover:ml-2 transition-all flex w-fit gap-10 flex-row border-1 border-primary pr-2 pl-5 font-medium py-2 rounded-4xl items-center">
+              <div onClick={()=>toUMKM()} className="hover:ml-2 cursor-pointer transition-all flex w-fit gap-10 flex-row border-1 border-primary pr-2 pl-5 font-medium py-2 rounded-4xl items-center">
                 <p>Lihat Selengkapnya</p>
                 <img src="icons/right.svg" className="w-6" alt="right" />
               </div>
@@ -259,7 +286,7 @@ export default function Home() {
               </div>
               <img src="image/ayo.png" alt="ayo" />
             </div>
-            <Footer/>
+            <Footer />
           </div>
         </div>
       </section>

@@ -13,6 +13,10 @@ export default function Navbar() {
     router.push("/umkm");
   }
 
+  const toRegis = () =>{
+    router.push("/umkm/registrasi")
+  }
+
   return (
     <nav className="flex justify-between items-center">
       <img src="logo/logo.svg" className="w-25" alt="logo" />
@@ -34,8 +38,8 @@ export default function Navbar() {
           </a>
         ))}
         <a
-          href="#"
-          className="text-white hover:bg-secondary hover:text-primary transition-all border border-primary font-semibold text-black flex justify-center bg-primary px-8 py-2 rounded-full"
+          onClick={()=> toRegis()}
+          className="text-white cursor-pointer hover:bg-secondary hover:text-primary transition-all border border-primary font-medium text-black flex justify-center bg-primary px-8 py-2 rounded-full"
         >
           Registrasi UMKM
         </a>
