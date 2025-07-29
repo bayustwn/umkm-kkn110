@@ -22,6 +22,7 @@ export default function EditBerita() {
             if (!id) return;
             
             try {
+                setIsLoadingData(true);
                 const response = await Api.get(`/news/${id}`);
                 const news = response.data.data;
                 
@@ -93,13 +94,13 @@ export default function EditBerita() {
         }
     };
 
+    // Full screen loading
     if (isLoadingData) {
         return (
-            <div className="py-15 md:px-10 md:py-[2%]">
-                <div className="mx-auto">
-                    <div className="flex items-center justify-center h-64">
-                        <img src="/icons/loading.svg" alt="Loading" className="w-12 h-12 animate-spin" />
-                    </div>
+            <div className="fixed inset-0 bg-white flex items-center justify-center z-50">
+                <div className="flex flex-col items-center gap-4">
+                    <img src="/icons/loading.svg" alt="Loading" className="w-16 h-16 animate-spin" />
+                    <p className="text-gray-600 text-lg">Memuat data berita...</p>
                 </div>
             </div>
         );

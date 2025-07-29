@@ -13,6 +13,7 @@ export default function BeritaDetail() {
     const {id} = useParams()
     const [news,setNews] = useState<any>(null)
     const [otherNews,setOtherNews] = useState<any>([])
+    const [isLoading, setIsLoading] = useState(true);
     const textareaRef = useRef<HTMLTextAreaElement>(null)
 
     const getNewsById = async () => {
@@ -35,9 +36,19 @@ export default function BeritaDetail() {
         }
     }
 
+    const loadData = async () => {
+        try {
+            setIsLoading(true);
+            await Promise.all([getNewsById(), getOther()]);
+        } catch (error) {
+            console.error('Error loading data:', error);
+        } finally {
+            setIsLoading(false);
+        }
+    }
+
     useEffect(() => {
-        getNewsById();
-        getOther();
+        loadData();
     }, [id]);
 
     useEffect(() => {
@@ -47,6 +58,17 @@ export default function BeritaDetail() {
         }
     }, [news?.content]);
 
+    // Full screen loading
+    if (isLoading) {
+        return (
+            <div className="fixed inset-0 bg-white flex items-center justify-center z-50">
+                <div className="flex flex-col items-center gap-4">
+                    <img src="/icons/loading.svg" alt="Loading" className="w-16 h-16 animate-spin" />
+                    <p className="text-gray-600 text-lg">Memuat detail berita...</p>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className="py-10 px-5 md:px-0 md:py-[3%] md:px-[6%]" >

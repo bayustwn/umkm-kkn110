@@ -5,6 +5,32 @@ import toast from "react-hot-toast"
 import { formatDate } from "../../../utils/formatDate"
 import { useNavigate } from "react-router-dom"
 
+// Skeleton Components
+const NewsCardSkeleton = () => (
+  <div className="w-full flex flex-row gap-5 items-center min-w-0">
+    <div className="h-40 rounded-md w-32 md:w-60 bg-gray-200 animate-pulse flex-shrink-0"></div>
+    <div className="flex flex-col gap-2 min-w-0 flex-1">
+      <div className="h-4 bg-gray-200 rounded w-20 animate-pulse"></div>
+      <div className="h-5 bg-gray-200 rounded w-3/4 animate-pulse"></div>
+      <div className="h-4 bg-gray-200 rounded w-full animate-pulse"></div>
+      <div className="h-4 bg-gray-200 rounded w-2/3 animate-pulse"></div>
+      <div className="flex gap-2 mt-2">
+        <div className="h-4 bg-gray-200 rounded w-12 animate-pulse"></div>
+        <div className="h-4 bg-gray-200 rounded w-12 animate-pulse"></div>
+        <div className="h-4 bg-gray-200 rounded w-16 animate-pulse"></div>
+      </div>
+    </div>
+  </div>
+);
+
+const NewsGridSkeleton = () => (
+  <div className="w-full gap-5 mt-8 grid grid-cols-1 md:grid-cols-2">
+    {[1, 2, 3, 4, 5, 6].map((index) => (
+      <NewsCardSkeleton key={index} />
+    ))}
+  </div>
+);
+
 export default function Berita() {
     const {goToBeritaDetail} = RouterNavigation()
     const navigate = useNavigate()
@@ -21,6 +47,7 @@ export default function Berita() {
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [isDeleting, setIsDeleting] = useState(false);
     const [newsToDelete, setNewsToDelete] = useState<any>(null);
+    const [isLoading, setIsLoading] = useState(true);
 
     const filteredByDate = news.filter((item: any) => {
       if (!dateStart || !dateEnd) return false;
@@ -30,11 +57,14 @@ export default function Berita() {
 
     const loadNews = async() =>{
         try {
+            setIsLoading(true);
             await Api.get("/news").then(res=>{
                 setNews(res.data.data)
             })
         } catch (error) {
             toast.error("Gagal memuat data")
+        } finally {
+            setIsLoading(false);
         }
     }
 
@@ -121,143 +151,157 @@ export default function Berita() {
 
               {filterActive ? (
                 <>
-                  <div className="w-full gap-5 mt-8 grid grid-cols-1 md:grid-cols-2">
-                    {filteredByDate.length === 0 ? (
-                      <p className="text-center col-span-2 text-gray-500">Berita tidak ditemukan</p>
-                    ) : (
-                      filteredByDate.map((news: any, index: any) => (
-                        <div key={index} className="w-full flex flex-row gap-5 items-center min-w-0">
-                          <img
-                            src={news.image}
-                            className="h-40 rounded-md w-32 md:w-60 object-cover flex-shrink-0"
-                            alt="manukan"
-                          />
-                          <div className="flex flex-col gap-2 min-w-0 flex-1">
-                            <p className="text-sm">{formatDate(news.created_at)}</p>
-                            <h1 className="font-bold text-md md:text-lg line-clamp-1 break-words w-full">
-                              {news.title}
-                            </h1>
-                            <p className="md:text-md text-sm line-clamp-2 break-words w-full">
-                              {news.content}
-                            </p>
-                            <div className="flex gap-2 mt-2">
-                              <button 
-                                onClick={() => handleDeleteClick(news)} 
-                                className="text-sm font-medium text-red-600 transition-colors cursor-pointer"
-                              >
-                                Hapus
-                              </button>
-                              <button 
-                                onClick={() => handleEdit(news.id)} 
-                                className="text-sm font-medium text-primary transition-colors cursor-pointer"
-                              >
-                                Edit
-                              </button>
-                              <button 
-                                onClick={() => goToBeritaDetail(news.id)} 
-                                className="text-sm font-medium text-primary hover:text-primary/80 transition-colors cursor-pointer"
-                              >
-                                Lihat →
-                              </button>
+                  {isLoading ? (
+                    <NewsGridSkeleton />
+                  ) : (
+                    <div className="w-full gap-5 mt-8 grid grid-cols-1 md:grid-cols-2">
+                      {filteredByDate.length === 0 ? (
+                        <p className="text-center col-span-2 text-gray-500">Berita tidak ditemukan</p>
+                      ) : (
+                        filteredByDate.map((news: any, index: any) => (
+                          <div key={index} className="w-full flex flex-row gap-5 items-center min-w-0">
+                            <img
+                              src={news.image}
+                              className="h-40 rounded-md w-32 md:w-60 object-cover flex-shrink-0"
+                              alt="manukan"
+                            />
+                            <div className="flex flex-col gap-2 min-w-0 flex-1">
+                              <p className="text-sm">{formatDate(news.created_at)}</p>
+                              <h1 className="font-bold text-md md:text-lg line-clamp-1 break-words w-full">
+                                {news.title}
+                              </h1>
+                              <p className="md:text-md text-sm line-clamp-2 break-words w-full">
+                                {news.content}
+                              </p>
+                              <div className="flex gap-2 mt-2">
+                                <button 
+                                  onClick={() => handleDeleteClick(news)} 
+                                  className="text-sm font-medium text-red-600 transition-colors cursor-pointer"
+                                >
+                                  Hapus
+                                </button>
+                                <button 
+                                  onClick={() => handleEdit(news.id)} 
+                                  className="text-sm font-medium text-primary transition-colors cursor-pointer"
+                                >
+                                  Edit
+                                </button>
+                                <button 
+                                  onClick={() => goToBeritaDetail(news.id)} 
+                                  className="text-sm font-medium text-primary hover:text-primary/80 transition-colors cursor-pointer"
+                                >
+                                  Lihat →
+                                </button>
+                              </div>
                             </div>
                           </div>
-                        </div>
-                      ))
-                    )}
-                  </div>
+                        ))
+                      )}
+                    </div>
+                  )}
                 </>
               ) : search ? (
                 <>
-                  <div className="w-full gap-5 mt-8 grid grid-cols-1 md:grid-cols-2">
-                    {filteredNews.length === 0 ? (
-                      <p className="text-center col-span-2 text-gray-500">Berita tidak ditemukan</p>
-                    ) : (
-                      filteredNews.map((news: any, index: any) => (
-                        <div key={index} className="w-full flex flex-row gap-5 items-center min-w-0">
-                          <img
-                            src={news.image}
-                            className="h-40 rounded-md w-32 md:w-60 object-cover flex-shrink-0"
-                            alt="manukan"
-                          />
-                          <div className="flex flex-col gap-2 min-w-0 flex-1">
-                            <p className="text-sm">{formatDate(news.created_at)}</p>
-                            <h1 className="font-bold text-md md:text-lg line-clamp-1 break-words w-full">
-                              {news.title}
-                            </h1>
-                            <p className="md:text-md text-sm line-clamp-2 break-words w-full">
-                              {news.content}
-                            </p>
-                            <div className="flex gap-2 mt-2">
-                              <button 
-                                onClick={() => handleDeleteClick(news)} 
-                                className="text-sm font-medium text-red-600 transition-colors cursor-pointer"
-                              >
-                                Hapus
-                              </button>
-                              <button 
-                                onClick={() => handleEdit(news.id)} 
-                                className="text-sm font-medium text-blue-primary transition-colors cursor-pointer"
-                              >
-                                Edit
-                              </button>
-                              <button 
-                                onClick={() => goToBeritaDetail(news.id)} 
-                                className="text-sm font-medium text-primary hover:text-primary/80 transition-colors cursor-pointer"
-                              >
-                                Lihat →
-                              </button>
+                  {isLoading ? (
+                    <NewsGridSkeleton />
+                  ) : (
+                    <div className="w-full gap-5 mt-8 grid grid-cols-1 md:grid-cols-2">
+                      {filteredNews.length === 0 ? (
+                        <p className="text-center col-span-2 text-gray-500">Berita tidak ditemukan</p>
+                      ) : (
+                        filteredNews.map((news: any, index: any) => (
+                          <div key={index} className="w-full flex flex-row gap-5 items-center min-w-0">
+                            <img
+                              src={news.image}
+                              className="h-40 rounded-md w-32 md:w-60 object-cover flex-shrink-0"
+                              alt="manukan"
+                            />
+                            <div className="flex flex-col gap-2 min-w-0 flex-1">
+                              <p className="text-sm">{formatDate(news.created_at)}</p>
+                              <h1 className="font-bold text-md md:text-lg line-clamp-1 break-words w-full">
+                                {news.title}
+                              </h1>
+                              <p className="md:text-md text-sm line-clamp-2 break-words w-full">
+                                {news.content}
+                              </p>
+                              <div className="flex gap-2 mt-2">
+                                <button 
+                                  onClick={() => handleDeleteClick(news)} 
+                                  className="text-sm font-medium text-red-600 transition-colors cursor-pointer"
+                                >
+                                  Hapus
+                                </button>
+                                <button 
+                                  onClick={() => handleEdit(news.id)} 
+                                  className="text-sm font-medium text-blue-primary transition-colors cursor-pointer"
+                                >
+                                  Edit
+                                </button>
+                                <button 
+                                  onClick={() => goToBeritaDetail(news.id)} 
+                                  className="text-sm font-medium text-primary hover:text-primary/80 transition-colors cursor-pointer"
+                                >
+                                  Lihat →
+                                </button>
+                              </div>
                             </div>
                           </div>
-                        </div>
-                      ))
-                    )}
-                  </div>
+                        ))
+                      )}
+                    </div>
+                  )}
                 </>
               ) : (
-                <div className="w-full gap-5 mt-8 grid grid-cols-1 md:grid-cols-2">
-                  {news
-                    .slice(0, page * perPage)
-                    .map((news:any, index:any) => {
-                      return (
-                          <div key={index} className="w-full flex flex-row gap-5 items-center min-w-0">
-                              <img
-                                  src={news.image}
-                                  className="h-40 rounded-md w-32 md:w-60 object-cover flex-shrink-0"
-                                  alt="manukan"
-                              />
-                              <div className="flex flex-col gap-2 min-w-0 flex-1">
-                                  <p className="text-sm">{formatDate(news.created_at)}</p>
-                                  <h1 className="font-bold text-md md:text-lg line-clamp-1 break-words w-full">
-                                      {news.title}
-                                  </h1>
-                                  <p className="md:text-md text-sm line-clamp-2 break-words w-full">
-                                      {news.content}
-                                  </p>
-                                  <div className="flex gap-2 mt-2">
-                                    <button 
-                                      onClick={() => handleDeleteClick(news)} 
-                                      className="text-sm font-medium text-red-600 transition-colors cursor-pointer"
-                                    >
-                                      Hapus
-                                    </button>
-                                    <button 
-                                      onClick={() => handleEdit(news.id)} 
-                                      className="text-sm font-medium text-primary transition-colors cursor-pointer"
-                                    >
-                                      Edit
-                                    </button>
-                                    <button 
-                                      onClick={() => goToBeritaDetail(news.id)} 
-                                      className="text-sm font-medium text-primary hover:text-primary/80 transition-colors cursor-pointer"
-                                    >
-                                      Lihat →
-                                    </button>
+                <>
+                  {isLoading ? (
+                    <NewsGridSkeleton />
+                  ) : (
+                    <div className="w-full gap-5 mt-8 grid grid-cols-1 md:grid-cols-2">
+                      {news
+                        .slice(0, page * perPage)
+                        .map((news:any, index:any) => {
+                          return (
+                              <div key={index} className="w-full flex flex-row gap-5 items-center min-w-0">
+                                  <img
+                                      src={news.image}
+                                      className="h-40 rounded-md w-32 md:w-60 object-cover flex-shrink-0"
+                                      alt="manukan"
+                                  />
+                                  <div className="flex flex-col gap-2 min-w-0 flex-1">
+                                      <p className="text-sm">{formatDate(news.created_at)}</p>
+                                      <h1 className="font-bold text-md md:text-lg line-clamp-1 break-words w-full">
+                                          {news.title}
+                                      </h1>
+                                      <p className="md:text-md text-sm line-clamp-2 break-words w-full">
+                                          {news.content}
+                                      </p>
+                                      <div className="flex gap-2 mt-2">
+                                        <button 
+                                          onClick={() => handleDeleteClick(news)} 
+                                          className="text-sm font-medium text-red-600 transition-colors cursor-pointer"
+                                        >
+                                          Hapus
+                                        </button>
+                                        <button 
+                                          onClick={() => handleEdit(news.id)} 
+                                          className="text-sm font-medium text-primary transition-colors cursor-pointer"
+                                        >
+                                          Edit
+                                        </button>
+                                        <button 
+                                          onClick={() => goToBeritaDetail(news.id)} 
+                                          className="text-sm font-medium text-primary hover:text-primary/80 transition-colors cursor-pointer"
+                                        >
+                                          Lihat →
+                                        </button>
+                                      </div>
                                   </div>
                               </div>
-                          </div>
-                      )
-                  })}
-                </div>
+                          )
+                      })}
+                    </div>
+                  )}
+                </>
               )}
             </div>
             {news.length > page * perPage && (

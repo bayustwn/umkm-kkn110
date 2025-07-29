@@ -5,6 +5,52 @@ import Api from "../../components/Api"
 import toast from "react-hot-toast"
 import { formatDate } from "../../utils/formatDate"
 
+// Skeleton Components
+const FeaturedNewsSkeleton = () => (
+  <>
+    <div className="h-8 bg-gray-200 rounded-md w-48 mt-10 md:mt-20 animate-pulse"></div>
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mt-8">
+      <div className="relative h-90 md:h-full">
+        <div className="rounded-lg w-full h-full bg-gray-200 animate-pulse"></div>
+        <div className="absolute bottom-0 left-0 w-full h-full rounded-lg bg-gradient-to-t from-black/80 to-transparent" />
+        <div className="absolute bottom-0 left-0 text-white p-4 md:p-5 flex flex-col">
+          <div className="h-4 bg-white/20 rounded w-24 animate-pulse mb-2"></div>
+          <div className="h-8 bg-white/20 rounded w-3/4 animate-pulse mb-2"></div>
+          <div className="h-4 bg-white/20 rounded w-full animate-pulse"></div>
+        </div>
+      </div>
+      <div className="relative h-90 md:h-full">
+        <div className="rounded-lg w-full h-full bg-gray-200 animate-pulse"></div>
+        <div className="absolute bottom-0 left-0 w-full h-full rounded-lg bg-gradient-to-t from-black/80 to-transparent" />
+        <div className="absolute bottom-0 left-0 text-white p-5 flex flex-col">
+          <div className="h-4 bg-white/20 rounded w-24 animate-pulse mb-2"></div>
+          <div className="h-8 bg-white/20 rounded w-3/4 animate-pulse mb-2"></div>
+          <div className="h-4 bg-white/20 rounded w-full animate-pulse"></div>
+        </div>
+      </div>
+    </div>
+  </>
+);
+
+const NewsCardSkeleton = () => (
+  <div className="w-full flex flex-row gap-5 items-center min-w-0">
+    <div className="h-40 rounded-md w-32 md:w-60 bg-gray-200 animate-pulse flex-shrink-0"></div>
+    <div className="flex flex-col gap-2 min-w-0 flex-1">
+      <div className="h-4 bg-gray-200 rounded w-20 animate-pulse"></div>
+      <div className="h-5 bg-gray-200 rounded w-3/4 animate-pulse"></div>
+      <div className="h-4 bg-gray-200 rounded w-full animate-pulse"></div>
+      <div className="h-4 bg-gray-200 rounded w-16 animate-pulse mt-1"></div>
+    </div>
+  </div>
+);
+
+const NewsGridSkeleton = () => (
+  <div className="w-full gap-5 mt-10 grid grid-cols-1 md:grid-cols-2">
+    {[1, 2, 3, 4, 5, 6].map((index) => (
+      <NewsCardSkeleton key={index} />
+    ))}
+  </div>
+);
 
 export default function Berita() {
     const {goToBeritaDetail} = RouterNavigation()
@@ -79,29 +125,33 @@ export default function Berita() {
 
             {/* Berita Terkini */}
             {!search && !filterActive && (
-              <>
-                <h1 className="font-bold text-3xl mt-10 md:mt-20">Berita Terkini</h1>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mt-8">
-                  <div onClick={()=>goToBeritaDetail(news[0]?.id)} className="relative cursor-pointer h-90 md:h-full">
-                    <img className="rounded-lg w-full h-full object-cover" src={news[0]?.image} alt="manukan" />
-                    <div className="absolute bottom-0 left-0 w-full h-full rounded-lg bg-gradient-to-t from-black/80 to-transparent" />
-                    <div className="absolute bottom-0 left-0 text-white p-4 md:p-5 flex flex-col">
-                      <p className="text-white/70 text-sm md:text-md">{formatDate(news[0]?.created_at)}</p>
-                      <h1 className="text-xl md:text-3xl font-bold line-clamp-2 mb-2">{news[0]?.title}</h1>
-                      <p className="line-clamp-2 md:text-md text-sm">{news[0]?.content}</p>
+              isLoading ? (
+                <FeaturedNewsSkeleton />
+              ) : (
+                <>
+                  <h1 className="font-bold text-3xl mt-10 md:mt-20">Berita Terkini</h1>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mt-8">
+                    <div onClick={()=>goToBeritaDetail(news[0]?.id)} className="relative cursor-pointer h-90 md:h-full">
+                      <img className="rounded-lg w-full h-full object-cover" src={news[0]?.image} alt="manukan" />
+                      <div className="absolute bottom-0 left-0 w-full h-full rounded-lg bg-gradient-to-t from-black/80 to-transparent" />
+                      <div className="absolute bottom-0 left-0 text-white p-4 md:p-5 flex flex-col">
+                        <p className="text-white/70 text-sm md:text-md">{formatDate(news[0]?.created_at)}</p>
+                        <h1 className="text-xl md:text-3xl font-bold line-clamp-2 mb-2">{news[0]?.title}</h1>
+                        <p className="line-clamp-2 md:text-md text-sm">{news[0]?.content}</p>
+                      </div>
+                    </div>
+                    <div onClick={()=>goToBeritaDetail(news[1]?.id)} className="cursor-pointer relative h-90 md:h-full md:inline">
+                      <img className="rounded-lg w-full h-full object-cover" src={news[1]?.image} alt="manukan" />
+                      <div className="absolute bottom-0 left-0 w-full h-full rounded-lg bg-gradient-to-t from-black/80 to-transparent" />
+                      <div className="absolute bottom-0 left-0 text-white p-5 flex flex-col">
+                        <p className="text-white/70">{formatDate(news[1]?.created_at)}</p>
+                        <h1 className="text-3xl font-bold line-clamp-2 mb-2">{news[1]?.title}</h1>
+                        <p className="line-clamp-2">{news[1]?.content}</p>
+                      </div>
                     </div>
                   </div>
-                  <div onClick={()=>goToBeritaDetail(news[1]?.id)} className="cursor-pointer relative h-90 md:h-full md:inline">
-                    <img className="rounded-lg w-full h-full object-cover" src={news[1]?.image} alt="manukan" />
-                    <div className="absolute bottom-0 left-0 w-full h-full rounded-lg bg-gradient-to-t from-black/80 to-transparent" />
-                    <div className="absolute bottom-0 left-0 text-white p-5 flex flex-col">
-                      <p className="text-white/70">{formatDate(news[1]?.created_at)}</p>
-                      <h1 className="text-3xl font-bold line-clamp-2 mb-2">{news[1]?.title}</h1>
-                      <p className="line-clamp-2">{news[1]?.content}</p>
-                    </div>
-                  </div>
-                </div>
-              </>
+                </>
+              )
             )}
 
             <div className="mt-10">
@@ -116,90 +166,102 @@ export default function Berita() {
               {filterActive ? (
                 <>
                   <h1 className="font-bold text-3xl mb-6">Hasil Filter Tanggal</h1>
-                  <div className="w-full gap-5 mt-10 grid grid-cols-1 md:grid-cols-2">
-                    {filteredByDate.length === 0 ? (
-                      <p className="text-center col-span-2 text-gray-500">Berita tidak ditemukan</p>
-                    ) : (
-                      filteredByDate.map((news: any, index: any) => (
-                        <div key={index} className="w-full flex flex-row gap-5 items-center min-w-0">
-                          <img
-                            src={news.image}
-                            className="h-40 rounded-md w-32 md:w-60 object-cover flex-shrink-0"
-                            alt="manukan"
-                          />
-                          <div className="flex flex-col gap-2 min-w-0 flex-1">
-                            <p className="text-sm">{formatDate(news.created_at)}</p>
-                            <h1 className="font-bold text-md md:text-lg line-clamp-1 break-words w-full">
-                              {news.title}
-                            </h1>
-                            <p className="md:text-md text-sm line-clamp-2 break-words w-full">
-                              {news.content}
-                            </p>
-                            <p onClick={() => goToBeritaDetail(news.id)} className="text-sm font-medium mt-1 cursor-pointer w-fit hover:pl-1 pl-0 transition-all text-primary">Lihat →</p>
+                  {isLoading ? (
+                    <NewsGridSkeleton />
+                  ) : (
+                    <div className="w-full gap-5 mt-10 grid grid-cols-1 md:grid-cols-2">
+                      {filteredByDate.length === 0 ? (
+                        <p className="text-center col-span-2 text-gray-500">Berita tidak ditemukan</p>
+                      ) : (
+                        filteredByDate.map((news: any, index: any) => (
+                          <div key={index} className="w-full flex flex-row gap-5 items-center min-w-0">
+                            <img
+                              src={news.image}
+                              className="h-40 rounded-md w-32 md:w-60 object-cover flex-shrink-0"
+                              alt="manukan"
+                            />
+                            <div className="flex flex-col gap-2 min-w-0 flex-1">
+                              <p className="text-sm">{formatDate(news.created_at)}</p>
+                              <h1 className="font-bold text-md md:text-lg line-clamp-1 break-words w-full">
+                                {news.title}
+                              </h1>
+                              <p className="md:text-md text-sm line-clamp-2 break-words w-full">
+                                {news.content}
+                              </p>
+                              <p onClick={() => goToBeritaDetail(news.id)} className="text-sm font-medium mt-1 cursor-pointer w-fit hover:pl-1 pl-0 transition-all text-primary">Lihat →</p>
+                            </div>
                           </div>
-                        </div>
-                      ))
-                    )}
-                  </div>
+                        ))
+                      )}
+                    </div>
+                  )}
                 </>
               ) : search ? (
                 <>
                   <h1 className="font-bold text-3xl mb-6">Hasil Pencarian</h1>
-                  <div className="w-full gap-5 mt-10 grid grid-cols-1 md:grid-cols-2">
-                    {filteredNews.length === 0 ? (
-                      <p className="text-center col-span-2 text-gray-500">Berita tidak ditemukan</p>
-                    ) : (
-                      filteredNews.map((news: any, index: any) => (
-                        <div key={index} className="w-full flex flex-row gap-5 items-center min-w-0">
-                          <img
-                            src={news.image}
-                            className="h-40 rounded-md w-32 md:w-60 object-cover flex-shrink-0"
-                            alt="manukan"
-                          />
-                          <div className="flex flex-col gap-2 min-w-0 flex-1">
-                            <p className="text-sm">{formatDate(news.created_at)}</p>
-                            <h1 className="font-bold text-md md:text-lg line-clamp-1 break-words w-full">
-                              {news.title}
-                            </h1>
-                            <p className="md:text-md text-sm line-clamp-2 break-words w-full">
-                              {news.content}
-                            </p>
-                            <p onClick={() => goToBeritaDetail(news.id)} className="text-sm font-medium mt-1 cursor-pointer w-fit hover:pl-1 pl-0 transition-all text-primary">Lihat →</p>
+                  {isLoading ? (
+                    <NewsGridSkeleton />
+                  ) : (
+                    <div className="w-full gap-5 mt-10 grid grid-cols-1 md:grid-cols-2">
+                      {filteredNews.length === 0 ? (
+                        <p className="text-center col-span-2 text-gray-500">Berita tidak ditemukan</p>
+                      ) : (
+                        filteredNews.map((news: any, index: any) => (
+                          <div key={index} className="w-full flex flex-row gap-5 items-center min-w-0">
+                            <img
+                              src={news.image}
+                              className="h-40 rounded-md w-32 md:w-60 object-cover flex-shrink-0"
+                              alt="manukan"
+                            />
+                            <div className="flex flex-col gap-2 min-w-0 flex-1">
+                              <p className="text-sm">{formatDate(news.created_at)}</p>
+                              <h1 className="font-bold text-md md:text-lg line-clamp-1 break-words w-full">
+                                {news.title}
+                              </h1>
+                              <p className="md:text-md text-sm line-clamp-2 break-words w-full">
+                                {news.content}
+                              </p>
+                              <p onClick={() => goToBeritaDetail(news.id)} className="text-sm font-medium mt-1 cursor-pointer w-fit hover:pl-1 pl-0 transition-all text-primary">Lihat →</p>
+                            </div>
                           </div>
-                        </div>
-                      ))
-                    )}
-                  </div>
+                        ))
+                      )}
+                    </div>
+                  )}
                 </>
               ) : (
                 <div>
                   
                   <h1 className="font-bold text-3xl mt-10 md:mt-15">Berita Seputar UMKM</h1>
-                <div className="w-full gap-5 mt-10 grid grid-cols-1 md:grid-cols-2">
-                  {news.filter((_:any,index:number)=>index>1)
-                    .slice(0, page * perPage)
-                    .map((news:any, index:any) => {
-                      return (
-                          <div key={index} className="w-full flex flex-row gap-5 items-center min-w-0">
-                              <img
-                                  src={news.image}
-                                  className="h-40 rounded-md w-32 md:w-60 object-cover flex-shrink-0"
-                                  alt="manukan"
-                              />
-                              <div className="flex flex-col gap-2 min-w-0 flex-1">
-                                  <p className="text-sm">{formatDate(news.created_at)}</p>
-                                  <h1 className="font-bold text-md md:text-lg line-clamp-1 break-words w-full">
-                                      {news.title}
-                                  </h1>
-                                  <p className="md:text-md text-sm line-clamp-2 break-words w-full">
-                                      {news.content}
-                                  </p>
-                                  <p onClick={()=>goToBeritaDetail(news.id)}  className="text-sm font-medium mt-1 cursor-pointer w-fit hover:pl-1 pl-0 transition-all text-primary">Lihat →</p>
+                  {isLoading ? (
+                    <NewsGridSkeleton />
+                  ) : (
+                    <div className="w-full gap-5 mt-10 grid grid-cols-1 md:grid-cols-2">
+                      {news.filter((_:any,index:number)=>index>1)
+                        .slice(0, page * perPage)
+                        .map((news:any, index:any) => {
+                          return (
+                              <div key={index} className="w-full flex flex-row gap-5 items-center min-w-0">
+                                  <img
+                                      src={news.image}
+                                      className="h-40 rounded-md w-32 md:w-60 object-cover flex-shrink-0"
+                                      alt="manukan"
+                                  />
+                                  <div className="flex flex-col gap-2 min-w-0 flex-1">
+                                      <p className="text-sm">{formatDate(news.created_at)}</p>
+                                      <h1 className="font-bold text-md md:text-lg line-clamp-1 break-words w-full">
+                                          {news.title}
+                                      </h1>
+                                      <p className="md:text-md text-sm line-clamp-2 break-words w-full">
+                                          {news.content}
+                                      </p>
+                                      <p onClick={()=>goToBeritaDetail(news.id)}  className="text-sm font-medium mt-1 cursor-pointer w-fit hover:pl-1 pl-0 transition-all text-primary">Lihat →</p>
+                                  </div>
                               </div>
-                          </div>
-                      )
-                  })}
-                </div>
+                          )
+                      })}
+                    </div>
+                  )}
                 </div>
               )}
             </div>

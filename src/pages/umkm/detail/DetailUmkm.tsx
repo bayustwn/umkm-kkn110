@@ -6,15 +6,19 @@ import toast from "react-hot-toast";
 
 export default function DetailUmkm() {
     const [umkm,setUmkm] = useState<any>([])
+    const [isLoading, setIsLoading] = useState(true);
     const {id} = useParams()
 
     const getUmkmById = async () => {
         try {
+            setIsLoading(true);
             await Api.get(`/umkm/${id}`).then(res=>{
                 setUmkm(res.data.data)
             })
         } catch (error) {
             toast.error("Gagal mengambil data umkm")
+        } finally {
+            setIsLoading(false);
         }
     }
 
@@ -34,6 +38,18 @@ export default function DetailUmkm() {
         const pesan = `Permisi saya apa benar ini dengan umkm ${umkm.name}?`;
         const url = `https://wa.me/${nomor}?text=${encodeURIComponent(pesan)}`;
         window.open(url, '_blank');
+    }
+
+    // Full screen loading
+    if (isLoading) {
+        return (
+            <div className="fixed inset-0 bg-white flex items-center justify-center z-50">
+                <div className="flex flex-col items-center gap-4">
+                    <img src="/icons/loading.svg" alt="Loading" className="w-16 h-16 animate-spin" />
+                    <p className="text-gray-600 text-lg">Memuat detail UMKM...</p>
+                </div>
+            </div>
+        );
     }
 
     return (

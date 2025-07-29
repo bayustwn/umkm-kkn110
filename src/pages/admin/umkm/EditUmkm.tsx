@@ -68,6 +68,17 @@ export default function EditUmkm() {
         }
     };
 
+    const loadData = async () => {
+        try {
+            setIsLoadingData(true);
+            await Promise.all([fetchKategori(), fetchUmkmData()]);
+        } catch (error) {
+            console.error('Error loading data:', error);
+        } finally {
+            setIsLoadingData(false);
+        }
+    };
+
     const handleProdukChange = (idx: number, field: string, value: string | File | null) => {
         setUmkmData(d => ({
             ...d,
@@ -175,17 +186,16 @@ export default function EditUmkm() {
     };
 
     useEffect(() => {
-        fetchKategori();
-        fetchUmkmData();
+        loadData();
     }, [id]);
 
+    // Full screen loading
     if (isLoadingData) {
         return (
-            <div className="py-15 md:px-10 md:py-[2%]">
-                <div className="mx-auto">
-                    <div className="flex items-center justify-center h-64">
-                        <img src="/icons/loading.svg" alt="Loading" className="w-12 h-12 animate-spin" />
-                    </div>
+            <div className="fixed inset-0 bg-white flex items-center justify-center z-50">
+                <div className="flex flex-col items-center gap-4">
+                    <img src="/icons/loading.svg" alt="Loading" className="w-16 h-16 animate-spin" />
+                    <p className="text-gray-600 text-lg">Memuat data UMKM...</p>
                 </div>
             </div>
         );
