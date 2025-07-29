@@ -248,7 +248,7 @@ export default function UmkmAdmin() {
         <div className="py-10 md:px-0 md:py-[2%] md:px-5">
             <div className="flex flex-col md:flex-row justify-between items-center">
                 <h1 className="text-2xl font-bold text-gray-800">Kelola UMKM</h1>
-                <div className="flex flex-row items-center mt-5 md:mt-0 gap-2">
+                <div className="flex flex-col md:flex-row items-center mt-5 md:mt-0 gap-2">
                     <div>
                         <div className="flex items-center border rounded-full px-1 py-1 w-full max-w-lg bg-white shadow-sm">
                             <input
@@ -261,6 +261,7 @@ export default function UmkmAdmin() {
                             <img src="/icons/search.svg" alt="search" className="w-8 h-8 ml-2" />
                         </div>
                     </div>
+                    <div className='flex-row flex gap-2 items-center'>
                     <select
                         value={selectedStatus}
                         onChange={(e) => setSelectedStatus(e.target.value)}
@@ -278,6 +279,7 @@ export default function UmkmAdmin() {
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
                         </svg>
                     </button>
+                    </div>
                 </div>
             </div>
 
