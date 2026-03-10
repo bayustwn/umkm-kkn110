@@ -46,7 +46,7 @@ export function useRegisterUmkm() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['umkm'] });
     },
-    onError: (error: any) => {
+    onError: (error: { response?: { data?: { message?: string } } }) => {
       toast.error(error?.response?.data?.message || 'Gagal menambahkan UMKM');
     },
   });
@@ -61,7 +61,7 @@ export function useUpdateUmkm() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['umkm'] });
     },
-    onError: (error: any) => {
+    onError: (error: { response?: { data?: { message?: string } } }) => {
       toast.error(error?.response?.data?.message || 'Gagal memperbarui UMKM');
     },
   });
@@ -76,7 +76,7 @@ export function useDeleteUmkm() {
       queryClient.invalidateQueries({ queryKey: ['umkm'] });
       toast.success('UMKM berhasil dihapus');
     },
-    onError: (error: any) => {
+    onError: (error: { response?: { data?: { message?: string } } }) => {
       toast.error(error?.response?.data?.message || 'Gagal menghapus UMKM');
     },
   });
@@ -100,7 +100,7 @@ export function useApproveUmkm() {
 export function useRegisterProduct() {
   return useMutation({
     mutationFn: (formData: FormData) => umkmApi.registerProduct(formData),
-    onError: (error: any) => {
+    onError: (error: { response?: { data?: { message?: string } } }) => {
       toast.error(error?.response?.data?.message || 'Gagal upload produk');
     },
   });
@@ -110,7 +110,7 @@ export function useUpdateProduct() {
   return useMutation({
     mutationFn: ({ id, formData }: { id: string; formData: FormData }) =>
       umkmApi.updateProduct(id, formData),
-    onError: (error: any) => {
+    onError: (error: { response?: { data?: { message?: string } } }) => {
       toast.error(error?.response?.data?.message || 'Gagal update produk');
     },
   });
@@ -140,7 +140,7 @@ export function useDeleteCategory() {
       queryClient.invalidateQueries({ queryKey: ['categories'] });
       toast.success('Kategori berhasil dihapus');
     },
-    onError: (error: any) => {
+    onError: (error: { response?: { data?: { message?: string } } }) => {
       toast.error(error?.response?.data?.message || 'Gagal menghapus kategori');
     },
   });

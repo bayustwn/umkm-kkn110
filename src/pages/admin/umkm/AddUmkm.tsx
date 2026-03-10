@@ -1,15 +1,15 @@
 import { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
-import { useCategories, useRegisterUmkm } from '@/hooks/useUmkm';
+import { useCategories } from '@/hooks/useUmkm';
 import { umkmApi } from '@/api/umkmApi';
 import MapPicker from '@/components/MapPicker';
 import LoadingOverlay from '@/components/ui/LoadingOverlay';
+import { getErrorMessage } from '@/utils/getErrorMessage';
 
 export default function AddUmkm() {
   const navigate = useNavigate();
   const { data: kategori = [] } = useCategories();
-  const registerUmkm = useRegisterUmkm();
 
   const [step, setStep] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
@@ -62,8 +62,8 @@ export default function AddUmkm() {
       }
       toast.success('UMKM berhasil ditambahkan!');
       navigate('/admin/umkm');
-    } catch (err: any) {
-      toast.error(err?.response?.data?.message || 'Gagal menambahkan UMKM');
+    } catch (err: unknown) {
+      toast.error(getErrorMessage(err, 'Gagal menambahkan UMKM'));
     } finally {
       setIsLoading(false);
     }

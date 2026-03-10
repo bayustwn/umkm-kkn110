@@ -26,7 +26,7 @@ export default function Sidebar() {
     if (userData.newPassword && userData.newPassword !== userData.confirmPassword) { toast.error('Password baru dan konfirmasi password tidak cocok!'); return; }
     if (userData.newPassword && !userData.currentPassword) { toast.error('Password saat ini harus diisi untuk mengubah password!'); return; }
 
-    const data: any = {};
+    const data: Record<string, string> = {};
     if (userData.telp !== undefined) data.telp = userData.telp;
     if (userData.email !== undefined) data.email = userData.email;
     if (userData.instagram !== undefined) data.instagram = userData.instagram;

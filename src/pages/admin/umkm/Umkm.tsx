@@ -5,6 +5,7 @@ import toast from 'react-hot-toast';
 import { useUmkmAdmin, useCategories, useDeleteUmkm, useApproveUmkm, useCreateCategory, useDeleteCategory } from '@/hooks/useUmkm';
 import { CategorySkeleton, UmkmCardSkeleton } from '@/components/skeletons';
 import ConfirmModal from '@/components/ui/ConfirmModal';
+import type { AdminUmkmItem, Category } from '@/types';
 
 export default function UmkmAdmin() {
   const [showModal, setShowModal] = useState(false);
@@ -21,11 +22,11 @@ export default function UmkmAdmin() {
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [selectedStatus, setSelectedStatus] = useState<string>('all');
   const [search, setSearch] = useState('');
-  const [umkmToDelete, setUmkmToDelete] = useState<any>(null);
-  const [umkmToApprove, setUmkmToApprove] = useState<any>(null);
+  const [umkmToDelete, setUmkmToDelete] = useState<AdminUmkmItem | null>(null);
+  const [umkmToApprove, setUmkmToApprove] = useState<AdminUmkmItem | null>(null);
   const [showAddCategoryModal, setShowAddCategoryModal] = useState(false);
   const [newCategoryName, setNewCategoryName] = useState('');
-  const [categoryToDelete, setCategoryToDelete] = useState<any>(null);
+  const [categoryToDelete, setCategoryToDelete] = useState<Category | null>(null);
 
   const handleCategoryChange = (cat: string) => {
     setSelectedCategories(prev => prev.includes(cat) ? prev.filter(c => c !== cat) : [...prev, cat]);
@@ -67,7 +68,7 @@ export default function UmkmAdmin() {
     </div>
   );
 
-  const renderUmkmCard = (item: any) => (
+  const renderUmkmCard = (item: AdminUmkmItem) => (
     <div key={item.id} className="mt-5 flex w-full flex-col gap-2 mb-3 md:mb-0 bg-white rounded-md">
       <div className="relative">
         <img src={item.image} alt={item.name} className="w-full h-60 object-cover rounded-md" />
@@ -158,11 +159,11 @@ export default function UmkmAdmin() {
         </div>
       </div>
 
-      <ConfirmModal isOpen={!!umkmToDelete} onClose={() => setUmkmToDelete(null)} onConfirm={() => deleteUmkm.mutate(umkmToDelete.id, { onSettled: () => setUmkmToDelete(null) })} title="Konfirmasi Hapus UMKM" message={`Apakah Anda yakin ingin menghapus UMKM <span class="font-semibold">"${umkmToDelete?.name}"</span>?<br/><span class="text-red-600 text-xs">Semua produk, foto UMKM, dan foto produk yang terkait juga akan dihapus.</span>`} confirmText="Hapus" isLoading={deleteUmkm.isPending} variant="danger" />
+      <ConfirmModal isOpen={!!umkmToDelete} onClose={() => setUmkmToDelete(null)} onConfirm={() => { if (!umkmToDelete) return; deleteUmkm.mutate(umkmToDelete.id, { onSettled: () => setUmkmToDelete(null) }); }} title="Konfirmasi Hapus UMKM" message={`Apakah Anda yakin ingin menghapus UMKM <span class="font-semibold">"${umkmToDelete?.name}"</span>?<br/><span class="text-red-600 text-xs">Semua produk, foto UMKM, dan foto produk yang terkait juga akan dihapus.</span>`} confirmText="Hapus" isLoading={deleteUmkm.isPending} variant="danger" />
 
-      <ConfirmModal isOpen={!!umkmToApprove} onClose={() => setUmkmToApprove(null)} onConfirm={() => approveUmkm.mutate(umkmToApprove.id, { onSettled: () => setUmkmToApprove(null) })} title="Konfirmasi Setujui UMKM" message={`Apakah Anda yakin ingin menyetujui UMKM <span class="font-semibold">"${umkmToApprove?.name}"</span>?`} confirmText="Setujui" isLoading={approveUmkm.isPending} variant="success" />
+      <ConfirmModal isOpen={!!umkmToApprove} onClose={() => setUmkmToApprove(null)} onConfirm={() => { if (!umkmToApprove) return; approveUmkm.mutate(umkmToApprove.id, { onSettled: () => setUmkmToApprove(null) }); }} title="Konfirmasi Setujui UMKM" message={`Apakah Anda yakin ingin menyetujui UMKM <span class="font-semibold">"${umkmToApprove?.name}"</span>?`} confirmText="Setujui" isLoading={approveUmkm.isPending} variant="success" />
 
-      <ConfirmModal isOpen={!!categoryToDelete} onClose={() => setCategoryToDelete(null)} onConfirm={() => { deleteCategory.mutate(categoryToDelete.id, { onSettled: () => setCategoryToDelete(null) }); setSelectedCategories(prev => prev.filter(c => c !== categoryToDelete?.name)); }} title="Konfirmasi Hapus Kategori" message={`Apakah Anda yakin ingin menghapus kategori <span class="font-semibold">"${categoryToDelete?.name}"</span>?<br/><span class="text-red-600 text-xs">Kategori yang masih digunakan oleh UMKM tidak dapat dihapus.</span>`} confirmText="Hapus" isLoading={deleteCategory.isPending} variant="danger" />
+      <ConfirmModal isOpen={!!categoryToDelete} onClose={() => setCategoryToDelete(null)} onConfirm={() => { if (!categoryToDelete) return; deleteCategory.mutate(categoryToDelete.id, { onSettled: () => setCategoryToDelete(null) }); setSelectedCategories(prev => prev.filter(c => c !== categoryToDelete.name)); }} title="Konfirmasi Hapus Kategori" message={`Apakah Anda yakin ingin menghapus kategori <span class="font-semibold">"${categoryToDelete?.name}"</span>?<br/><span class="text-red-600 text-xs">Kategori yang masih digunakan oleh UMKM tidak dapat dihapus.</span>`} confirmText="Hapus" isLoading={deleteCategory.isPending} variant="danger" />
 
       {showAddCategoryModal && (
         <div className="fixed inset-0 z-[60] flex items-center justify-center">

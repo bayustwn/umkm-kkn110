@@ -34,7 +34,7 @@ export function useCreateNews() {
       queryClient.invalidateQueries({ queryKey: ['news'] });
       toast.success('Berita berhasil ditambahkan!');
     },
-    onError: (error: any) => {
+    onError: (error: { response?: { data?: { message?: string } } }) => {
       toast.error(error?.response?.data?.message || 'Gagal menambahkan berita');
     },
   });
@@ -50,7 +50,7 @@ export function useUpdateNews() {
       queryClient.invalidateQueries({ queryKey: ['news'] });
       toast.success('Berita berhasil diperbarui!');
     },
-    onError: (error: any) => {
+    onError: (error: { response?: { data?: { message?: string } } }) => {
       toast.error(error?.response?.data?.message || 'Gagal memperbarui berita');
     },
   });
@@ -65,7 +65,7 @@ export function useDeleteNews() {
       queryClient.invalidateQueries({ queryKey: ['news'] });
       toast.success('Berita berhasil dihapus');
     },
-    onError: (error: any) => {
+    onError: (error: { response?: { data?: { message?: string } } }) => {
       toast.error(error?.response?.data?.message || 'Gagal menghapus berita');
     },
   });

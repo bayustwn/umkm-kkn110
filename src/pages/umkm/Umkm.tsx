@@ -2,9 +2,10 @@ import { useState } from 'react';
 import useNavigation from '@/hooks/useNavigation';
 import { useUmkm, useCategories } from '@/hooks/useUmkm';
 import UmkmCard from '@/components/ui/UmkmCard';
+import CategoryCheckboxes from '@/components/ui/CategoryCheckboxes';
 import { CategorySkeleton, UmkmCardSkeleton } from '@/components/skeletons';
 
-export default function UMKM() {
+export default function UmkmPage() {
   const [showModal, setShowModal] = useState(false);
   const { goToUmkmDetail } = useNavigation();
   const { data: umkm = [], isLoading: umkmLoading } = useUmkm();
@@ -33,24 +34,6 @@ export default function UMKM() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const CategoryCheckboxes = ({ mobile = false }: { mobile?: boolean }) => (
-    <div className="flex flex-col gap-3">
-      <div className="flex flex-row gap-2 items-center">
-        <input className="w-4 h-4 accent-primary" type="checkbox" checked={selectedCategories.length === 0} onChange={() => setSelectedCategories([])} />
-        <p>Semua</p>
-      </div>
-      {category.map((cat) => (
-        <div key={cat.id} className="flex flex-row gap-2 items-center">
-          <input className="w-4 h-4 accent-primary" type="checkbox" checked={selectedCategories.includes(cat.name)} onChange={() => handleCategoryChange(cat.name)} />
-          <p>{cat.name}</p>
-        </div>
-      ))}
-      {mobile && (
-        <button onClick={handleApply} className="mt-6 w-full bg-primary text-white py-2 rounded-full font-semibold">Terapkan</button>
-      )}
-    </div>
-  );
-
   return (
     <div className="pt-10 pb-20 px-5 md:px-0 md:py-[3%] md:px-[6%]">
       <div className="flex flex-col md:flex-row justify-between items-center">
@@ -71,13 +54,13 @@ export default function UMKM() {
         ) : (
           <div className="w-[15%] hidden md:block md:sticky md:top-5 h-fit">
             <h1 className="font-semibold text-lg mb-5">Pilih Kategori</h1>
-            <CategoryCheckboxes />
+            <CategoryCheckboxes categories={category} selectedCategories={selectedCategories} onCategoryChange={handleCategoryChange} onClearAll={() => setSelectedCategories([])} />
           </div>
         )}
 
         <button
           onClick={() => setShowModal(true)}
-          className="fixed z-50 bottom-6 right-6 bg-primary text-white p-4 rounded-full shadow-lg md:hidden flex items-center gap-2"
+          className="fixed z-50 bottom-6 right-6 bg-primary text-white p-4 rounded-full shadow-lg md:hidden flex items-center gap-2 cursor-pointer"
           aria-label="Filter Kategori"
         >
           <img src="/icons/category.svg" className="w-6 h-6" alt="filter" />
@@ -88,7 +71,7 @@ export default function UMKM() {
             <div className="absolute inset-0 bg-black/40" onClick={() => setShowModal(false)} />
             <div className="relative bg-white w-full rounded-t-2xl p-6 max-h-[70vh] overflow-y-auto transition-transform duration-300 ease-out translate-y-0 animate-slideup">
               <h2 className="font-bold text-lg mb-4">Pilih Kategori</h2>
-              <CategoryCheckboxes mobile />
+              <CategoryCheckboxes categories={category} selectedCategories={selectedCategories} onCategoryChange={handleCategoryChange} onClearAll={() => setSelectedCategories([])} onApply={handleApply} mobile />
             </div>
           </div>
         )}

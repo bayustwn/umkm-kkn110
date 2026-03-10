@@ -10,7 +10,7 @@ interface ProtectAdminProps {
 
 interface JwtPayload {
   exp?: number;
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 export default function ProtectAdmin({ children }: ProtectAdminProps) {

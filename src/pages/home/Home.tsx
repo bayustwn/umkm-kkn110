@@ -4,8 +4,10 @@ import Footer from '@/components/layout/Footer';
 import useNavigation from '@/hooks/useNavigation';
 import { useDashboard } from '@/hooks/useDashboard';
 import NewsCard from '@/components/ui/NewsCard';
+import UmkmCard from '@/components/ui/UmkmCard';
 import { formatDate } from '@/utils/formatDate';
 import { UmkmCardSkeleton, NewsCardSkeleton } from '@/components/skeletons';
+import type { UmkmDashboardItem } from '@/types';
 
 const NewsSkeleton = () => (
   <div className="text-black flex flex-col gap-5 py-20">
@@ -46,8 +48,8 @@ export default function Home() {
   };
 
   const featuredNews = data?.news?.items?.[0];
-  const otherNews = data?.news?.items?.filter((_: any, i: number) => i > 0) ?? [];
-  const umkmItems = data?.umkm?.items ?? [];
+  const otherNews = data?.news?.items?.slice(1) ?? [];
+  const umkmItems: UmkmDashboardItem[] = data?.umkm?.items ?? [];
 
   return (
     <div className="relative h-screen">
@@ -59,10 +61,10 @@ export default function Home() {
           <div className="flex flex-col gap-4">
             <h1 className="font-bold text-3xl md:text-5xl">Temukan UMKM Terbaik di Manukan Wetan.</h1>
             <p className="max-w-full md:max-w-[80%] my-1 text-base md:text-lg">Dukung ekonomi lokal dengan mengenal dan menggunakan produk serta layanan dari para pelaku usaha kecil menengah di sekitar Anda.</p>
-            <div onClick={scrollUMKM} className="cursor-pointer hover:ml-2 transition-all ml-0 bg-primary gap-4 md:gap-10 text-sm md:text-base text-white w-fit flex pl-4 pr-2 justify-center items-center py-2 rounded-full">
+            <button onClick={scrollUMKM} className="cursor-pointer hover:ml-2 transition-all ml-0 bg-primary gap-4 md:gap-10 text-sm md:text-base text-white w-fit flex pl-4 pr-2 justify-center items-center py-2 rounded-full">
               Lihat UMKM
               <img src="/icons/go.svg" alt="go" className="w-4 md:w-6" />
-            </div>
+            </button>
             <div className="grid grid-cols-2 gap-2 h-full mt-6 md:mt-10">
               <div className="flex flex-row items-center gap-2">
                 <h1 className="font-bold text-2xl md:text-4xl">{data?.umkm?.total || 0}+</h1>
@@ -80,7 +82,7 @@ export default function Home() {
             <h1 className="font-bold text-3xl">Berita Terkini</h1>
             <div className="flex flex-col md:flex-row gap-5 mt-2 items-start">
               {featuredNews && (
-                <div onClick={() => goToNewsDetail(featuredNews.id)} className="w-full md:w-[55%] relative cursor-pointer mb-5 md:mb-0">
+                <button onClick={() => goToNewsDetail(featuredNews.id)} className="w-full md:w-[55%] relative cursor-pointer mb-5 md:mb-0 text-left">
                   <img src={featuredNews.image} className="h-90 md:h-130 rounded-md w-full object-cover" alt={featuredNews.title} />
                   <div className="absolute bottom-0 left-0 w-full h-full rounded-lg bg-gradient-to-t from-black/90 to-transparent" />
                   <div className="text-white flex flex-col gap-2 absolute bottom-0 left-0 p-5 md:p-8 z-10 w-full overflow-hidden">
@@ -88,18 +90,18 @@ export default function Home() {
                     <h1 className="font-bold text-2xl line-clamp-2 break-words w-full">{featuredNews.title}</h1>
                     <p className="line-clamp-2 text-sm md:text-medium break-words w-full">{featuredNews.content}</p>
                   </div>
-                </div>
+                </button>
               )}
               <div className="w-full md:w-[45%] flex flex-col gap-5">
-                {otherNews.map((news: any) => (
+                {otherNews.map((news) => (
                   <NewsCard key={news.id} id={news.id} title={news.title} content={news.content} image={news.image} createdAt={news.created_at} onNavigate={goToNewsDetail} />
                 ))}
               </div>
             </div>
             <div className="w-fit flex flex-row w-full mt-5 justify-center">
-              <div onClick={goToNews} className="border cursor-pointer hover:scale-105 transition-all py-2 px-5 rounded-full">
+              <button onClick={goToNews} className="border cursor-pointer hover:scale-105 transition-all py-2 px-5 rounded-full">
                 <p>Baca Selengkapnya...</p>
-              </div>
+              </button>
             </div>
           </div>
         )}
@@ -109,44 +111,25 @@ export default function Home() {
             <div className="flex flex-col text-black gap-5 pb-10">
               <h1 className="text-3xl font-bold">UMKM Manukan Wetan</h1>
               <div className="mt-5 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
-                {umkmItems.map((umkm: any) => (
-                  <div key={umkm.id} className="flex flex-col gap-2 mb-3 md:mb-0 bg-white rounded-md">
-                    <div className="relative">
-                      <img src={umkm.image} alt={umkm.name} className="w-full h-60 object-cover rounded-md" />
-                      <div className="absolute top-3 left-3 justify-center bg-primary w-fit px-4 text-white border border-primary text-sm py-1 rounded-full">
-                        <p>{umkm.category.name}</p>
-                      </div>
-                    </div>
-                    <h1 className="font-bold text-lg line-clamp-1">{umkm.name}</h1>
-                    <p className="line-clamp-2 text-sm">{umkm.description}</p>
-                    <div>
-                      <div className="my-4">
-                        <div className="flex flex-row gap-2 items-center">
-                          <img src="/icons/location.svg" alt="location" className="w-4 h-4" />
-                          <p className="text-sm line-clamp-1">{umkm.address}</p>
-                        </div>
-                        <div className="flex flex-row gap-2 mt-3 items-center">
-                          <img src="/icons/product.svg" alt="product" className="w-4 h-4" />
-                          <p className="text-sm">{umkm._count.product} Produk</p>
-                        </div>
-                      </div>
-                      <div className="mt-5 flex flex-row items-center justify-between">
-                        <div className="flex flex-col items-start">
-                          <p className="text-sm">Mulai dari</p>
-                          <p className="text-lg font-bold">Rp {umkm.hargaTermurah}</p>
-                        </div>
-                        <div onClick={() => goToUmkmDetail(umkm.id)} className="cursor-pointer hover:bg-primary/80 transition-all flex px-5 py-1 font-normal text-white rounded-full justify-center bg-primary items-center w-fit">
-                          <p>Lihat</p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+                {umkmItems.map((umkm) => (
+                  <UmkmCard
+                    key={umkm.id}
+                    id={umkm.id}
+                    name={umkm.name}
+                    description={umkm.description}
+                    image={umkm.image}
+                    address={umkm.address}
+                    category={umkm.category.name}
+                    hargaTermurah={umkm.hargaTermurah}
+                    jumlahProduk={umkm._count.product}
+                    onNavigate={goToUmkmDetail}
+                  />
                 ))}
               </div>
               <div className="w-fit flex flex-row w-full mt-5 justify-center">
-                <div onClick={goToUmkm} className="border cursor-pointer hover:scale-105 transition-all py-2 px-5 rounded-full">
+                <button onClick={goToUmkm} className="border cursor-pointer hover:scale-105 transition-all py-2 px-5 rounded-full">
                   <p>Lihat Selengkapnya...</p>
-                </div>
+                </button>
               </div>
             </div>
           )}
@@ -155,9 +138,9 @@ export default function Home() {
         <div className="flex flex-col gap-4 justify-center text-black items-center mt-20 md:mt-32 px-4">
           <h1 className="text-2xl md:text-4xl font-bold text-center">Registrasi UMKM anda sekarang.</h1>
           <p className="text-center text-base md:text-lg">Tampilkan usaha Anda di website UMKM Manukan Wetan. <br />Gratis dan mudah!</p>
-          <div onClick={goToRegister} className="bg-primary w-fit px-5 py-2 rounded-full text-white font-medium mt-2 md:mt-0 cursor-pointer hover:bg-primary/90 transition-all">
+          <button onClick={goToRegister} className="bg-primary w-fit px-5 py-2 rounded-full text-white font-medium mt-2 md:mt-0 cursor-pointer hover:bg-primary/90 transition-all">
             <p>Registrasi Sekarang</p>
-          </div>
+          </button>
           <Footer />
         </div>
       </div>

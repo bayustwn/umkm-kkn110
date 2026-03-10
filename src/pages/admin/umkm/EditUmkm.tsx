@@ -6,6 +6,8 @@ import { umkmApi } from '@/api/umkmApi';
 import MapPicker from '@/components/MapPicker';
 import { FullPageLoader } from '@/components/skeletons';
 import LoadingOverlay from '@/components/ui/LoadingOverlay';
+import type { UmkmProduct } from '@/types';
+import { getErrorMessage } from '@/utils/getErrorMessage';
 
 export default function EditUmkm() {
   const { id } = useParams<string>();
@@ -31,7 +33,7 @@ export default function EditUmkm() {
         kategori: umkmDetail.category.id, alamat: umkmDetail.address,
         latitude: umkmDetail.latitude || -7.2591052, longitude: umkmDetail.longitude || 112.6764528,
         foto: null,
-        produk: umkmDetail.product.map((p: any) => ({ nama: p.name, deskripsi: p.description || '', harga: p.price.toString(), foto: null, currentImage: p.image || '' })),
+        produk: umkmDetail.product.map((p: UmkmProduct) => ({ nama: p.name, deskripsi: p.description || '', harga: p.price.toString(), foto: null, currentImage: p.image || '' })),
       });
       setCurrentImage(umkmDetail.image);
     }
@@ -85,8 +87,8 @@ export default function EditUmkm() {
       }
       toast.success('UMKM berhasil diperbarui!');
       navigate('/admin/umkm');
-    } catch (err: any) {
-      toast.error(err?.response?.data?.message || 'Gagal memperbarui UMKM');
+    } catch (err: unknown) {
+      toast.error(getErrorMessage(err, 'Gagal memperbarui UMKM'));
     } finally {
       setIsLoading(false);
     }
@@ -165,7 +167,7 @@ export default function EditUmkm() {
                         : p.currentImage ? <img src={p.currentImage} alt="Current" className="object-cover w-full h-full rounded-lg" />
                         : <span className="text-gray-400 text-xs text-center">Foto Produk</span>}
                     </div>
-                    <input ref={(el: any) => produkInputRefs.current[idx] = el} type="file" accept="image/*" className="hidden" onChange={e => handleProdukChange(idx, 'foto', e.target.files?.[0] || null)} />
+                    <input ref={(el: HTMLInputElement | null) => { produkInputRefs.current[idx] = el; }} type="file" accept="image/*" className="hidden" onChange={e => handleProdukChange(idx, 'foto', e.target.files?.[0] || null)} />
                   </div>
                   <div className="flex flex-col gap-2 w-full">
                     <input type="text" placeholder="Nama Produk" className="input outline-none font-semibold text-2xl w-full" value={p.nama} onChange={e => handleProdukChange(idx, 'nama', e.target.value)} required />

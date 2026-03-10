@@ -11,7 +11,7 @@ export function useLogin() {
     onSuccess: (data) => {
       Cookies.set('token', data.token);
     },
-    onError: (error: any) => {
+    onError: (error: { response?: { data?: { message?: string } } }) => {
       toast.error(error?.response?.data?.message || 'Login gagal');
     },
   });
@@ -33,7 +33,7 @@ export function useUpdateProfile() {
       queryClient.invalidateQueries({ queryKey: ['user'] });
       toast.success(data.message || 'Profil berhasil diperbarui!');
     },
-    onError: (error: any) => {
+    onError: (error: { response?: { data?: { message?: string } } }) => {
       toast.error(error?.response?.data?.message || 'Gagal memperbarui profil');
     },
   });

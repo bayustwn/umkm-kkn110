@@ -91,10 +91,13 @@ export interface DashboardStats {
 export interface AdminUmkmItem {
   id: string;
   name: string;
+  description: string;
   address: string;
   image: string;
-  status: string;
+  status: 'active' | 'pending';
   category: string;
+  hargaTermurah: number;
+  jumlahProduk: number;
 }
 
 // ============================================

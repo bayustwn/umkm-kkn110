@@ -47,12 +47,12 @@ export default function UmkmCard({
             <p className="text-sm">Mulai dari</p>
             <p className="text-lg font-bold">Rp {hargaTermurah}</p>
           </div>
-          <div
+          <button
             onClick={() => onNavigate(id)}
             className="cursor-pointer hover:bg-primary/80 transition-all flex px-5 py-1 font-normal text-white rounded-full justify-center bg-primary items-center w-fit"
           >
             <p>Lihat</p>
-          </div>
+          </button>
         </div>
       </div>
     </div>

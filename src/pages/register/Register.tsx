@@ -7,6 +7,8 @@ import MapPicker from '@/components/MapPicker';
 import LoadingOverlay from '@/components/ui/LoadingOverlay';
 import { useCategories, useUmkmPreview } from '@/hooks/useUmkm';
 import { umkmApi } from '@/api/umkmApi';
+import { WA_ADMIN_NUMBER } from '@/constants';
+import { getErrorMessage } from '@/utils/getErrorMessage';
 
 export default function Register() {
   const { goToUmkmDetail, goToUmkm } = useNavigation();
@@ -65,13 +67,13 @@ export default function Register() {
         await umkmApi.registerProduct(produkForm);
       }
       toast.success('Registrasi UMKM berhasil!');
-      const nomor = '6285156203867';
+      const nomor = WA_ADMIN_NUMBER;
       const pesan = `Permisi saya dari umkm ${umkm.name} telah melakukan regisrasi online. id saya ${umkm.id} mohon untuk ditinjau. Saya tunggu kabarnya, terima kasih`;
       window.open(`https://wa.me/${nomor}?text=${encodeURIComponent(pesan)}`, '_blank');
       setUmkmName(umkm.name);
       setShowSuccessModal(true);
-    } catch (err: any) {
-      toast.error(err?.response?.data?.message || 'Gagal mendaftarkan UMKM');
+    } catch (err: unknown) {
+      toast.error(getErrorMessage(err, 'Gagal mendaftarkan UMKM'));
     } finally {
       setIsLoading(false);
     }

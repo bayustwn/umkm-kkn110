@@ -2,45 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import { useNews } from '@/hooks/useNews';
 import { useUmkmAdmin } from '@/hooks/useUmkm';
 import { formatDate } from '@/utils/formatDate';
-
-const StatsCardSkeleton = () => (
-  <div className="bg-white rounded-lg border border-gray-200 p-6">
-    <div className="flex items-center">
-      <div className="p-3 bg-gray-200 rounded-lg animate-pulse">
-        <div className="w-6 h-6 bg-gray-300 rounded animate-pulse" />
-      </div>
-      <div className="ml-4">
-        <div className="h-4 bg-gray-200 rounded w-20 animate-pulse mb-2" />
-        <div className="h-8 bg-gray-200 rounded w-12 animate-pulse" />
-      </div>
-    </div>
-  </div>
-);
-
-const ListItemSkeleton = () => (
-  <div className="flex items-start space-x-4">
-    <div className="w-16 h-16 bg-gray-200 rounded-lg animate-pulse flex-shrink-0" />
-    <div className="flex-1 min-w-0">
-      <div className="h-4 bg-gray-200 rounded w-3/4 animate-pulse mb-2" />
-      <div className="h-3 bg-gray-200 rounded w-full animate-pulse mb-2" />
-      <div className="h-3 bg-gray-200 rounded w-1/2 animate-pulse" />
-    </div>
-  </div>
-);
-
-const SectionSkeleton = () => (
-  <div className="bg-white rounded-lg">
-    <div className="pb-8">
-      <div className="flex items-center justify-between">
-        <div className="h-6 bg-gray-200 rounded w-32 animate-pulse" />
-        <div className="h-4 bg-gray-200 rounded w-20 animate-pulse" />
-      </div>
-    </div>
-    <div className="space-y-4">
-      {[1, 2, 3].map((i) => <ListItemSkeleton key={i} />)}
-    </div>
-  </div>
-);
+import { StatsCardSkeleton, SectionSkeleton } from '@/components/skeletons';
 
 interface StatsCardProps {
   icon: React.ReactNode;
@@ -88,24 +50,9 @@ export default function Dashboard() {
             <>{[1, 2, 3].map((i) => <StatsCardSkeleton key={i} />)}</>
           ) : (
             <>
-              <StatsCard
-                label="Total Berita"
-                value={totalBerita}
-                color="bg-blue-100"
-                icon={<svg className="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" /></svg>}
-              />
-              <StatsCard
-                label="UMKM Aktif"
-                value={totalUmkmAktif}
-                color="bg-green-100"
-                icon={<svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>}
-              />
-              <StatsCard
-                label="UMKM Pending"
-                value={totalUmkmPending}
-                color="bg-yellow-100"
-                icon={<svg className="w-6 h-6 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>}
-              />
+              <StatsCard label="Total Berita" value={totalBerita} color="bg-blue-100" icon={<svg className="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" /></svg>} />
+              <StatsCard label="UMKM Aktif" value={totalUmkmAktif} color="bg-green-100" icon={<svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>} />
+              <StatsCard label="UMKM Pending" value={totalUmkmPending} color="bg-yellow-100" icon={<svg className="w-6 h-6 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>} />
             </>
           )}
         </div>

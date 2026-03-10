@@ -74,16 +74,6 @@ export function UmkmCardSkeleton() {
   );
 }
 
-export function UmkmGridSkeleton({ count = 8, cols = 4 }: { count?: number; cols?: number }) {
-  return (
-    <div className={`grid grid-cols-1 md:grid-cols-${cols} gap-5`}>
-      {Array.from({ length: count }).map((_, i) => (
-        <UmkmCardSkeleton key={i} />
-      ))}
-    </div>
-  );
-}
-
 export function CategorySkeleton() {
   return (
     <div className="w-[15%] hidden md:block md:sticky md:top-5 h-fit">
@@ -100,16 +90,46 @@ export function CategorySkeleton() {
   );
 }
 
-export function DashboardSkeleton() {
+export function StatsCardSkeleton() {
   return (
-    <div className="space-y-6">
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {Array.from({ length: 3 }).map((_, i) => (
-          <div key={i} className="bg-white rounded-lg p-6 shadow-sm">
-            <div className="h-4 bg-gray-200 rounded w-24 animate-pulse mb-2" />
-            <div className="h-8 bg-gray-200 rounded w-16 animate-pulse" />
-          </div>
-        ))}
+    <div className="bg-white rounded-lg border border-gray-200 p-6">
+      <div className="flex items-center">
+        <div className="p-3 bg-gray-200 rounded-lg animate-pulse">
+          <div className="w-6 h-6 bg-gray-300 rounded animate-pulse" />
+        </div>
+        <div className="ml-4">
+          <div className="h-4 bg-gray-200 rounded w-20 animate-pulse mb-2" />
+          <div className="h-8 bg-gray-200 rounded w-12 animate-pulse" />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export function ListItemSkeleton() {
+  return (
+    <div className="flex items-start space-x-4">
+      <div className="w-16 h-16 bg-gray-200 rounded-lg animate-pulse flex-shrink-0" />
+      <div className="flex-1 min-w-0">
+        <div className="h-4 bg-gray-200 rounded w-3/4 animate-pulse mb-2" />
+        <div className="h-3 bg-gray-200 rounded w-full animate-pulse mb-2" />
+        <div className="h-3 bg-gray-200 rounded w-1/2 animate-pulse" />
+      </div>
+    </div>
+  );
+}
+
+export function SectionSkeleton() {
+  return (
+    <div className="bg-white rounded-lg">
+      <div className="pb-8">
+        <div className="flex items-center justify-between">
+          <div className="h-6 bg-gray-200 rounded w-32 animate-pulse" />
+          <div className="h-4 bg-gray-200 rounded w-20 animate-pulse" />
+        </div>
+      </div>
+      <div className="space-y-4">
+        {[1, 2, 3].map((i) => <ListItemSkeleton key={i} />)}
       </div>
     </div>
   );
