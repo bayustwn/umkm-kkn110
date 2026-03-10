@@ -15,4 +15,4 @@ export default function ProtectLogin({ children }: ProtectLoginProps) {
     }
   }, [navigate]);
   return <>{children}</>;
-} 
+}

@@ -129,7 +129,9 @@ export function SectionSkeleton() {
         </div>
       </div>
       <div className="space-y-4">
-        {[1, 2, 3].map((i) => <ListItemSkeleton key={i} />)}
+        {[1, 2, 3].map((i) => (
+          <ListItemSkeleton key={i} />
+        ))}
       </div>
     </div>
   );

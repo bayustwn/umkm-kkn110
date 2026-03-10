@@ -3,7 +3,10 @@ interface LoadingOverlayProps {
   message?: string;
 }
 
-export default function LoadingOverlay({ isLoading, message = 'Memproses...' }: LoadingOverlayProps) {
+export default function LoadingOverlay({
+  isLoading,
+  message = 'Memproses...',
+}: LoadingOverlayProps) {
   if (!isLoading) return null;
 
   return (

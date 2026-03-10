@@ -3,7 +3,10 @@ import type { UserInfo, UpdateProfileInput } from '@/types';
 import Cookies from 'js-cookie';
 
 export const userApi = {
-  login: async (username: string, password: string): Promise<{ token: string; message?: string }> => {
+  login: async (
+    username: string,
+    password: string,
+  ): Promise<{ token: string; message?: string }> => {
     const res = await apiClient.post('/user/login', { username, password });
     return res.data;
   },

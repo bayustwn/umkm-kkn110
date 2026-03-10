@@ -19,9 +19,7 @@ export default function ImageUpload({
 }: ImageUploadProps) {
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const preview = value
-    ? URL.createObjectURL(value)
-    : currentImage || null;
+  const preview = value ? URL.createObjectURL(value) : currentImage || null;
 
   return (
     <div className="flex flex-col gap-2">

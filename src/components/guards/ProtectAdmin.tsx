@@ -34,4 +34,4 @@ export default function ProtectAdmin({ children }: ProtectAdminProps) {
     }
   }, [navigate]);
   return <>{children}</>;
-} 
+}

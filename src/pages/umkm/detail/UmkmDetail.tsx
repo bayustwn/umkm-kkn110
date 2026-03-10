@@ -25,7 +25,11 @@ export default function UmkmDetail() {
 
   return (
     <div className="relative h-screen">
-      <img src={umkm?.image} alt="background" className="absolute inset-0 w-full h-full object-cover" />
+      <img
+        src={umkm?.image}
+        alt="background"
+        className="absolute inset-0 w-full h-full object-cover"
+      />
       <div className="absolute inset-0 bg-gradient-to-r from-black to-transparent" />
       <div className="relative flex flex-col z-10 px-3 md:px-0 py-10 px-6 md:py-[3%] md:px-[6%] text-white h-full">
         <Navbar />
@@ -51,7 +55,12 @@ export default function UmkmDetail() {
               <p>{umkm?.phone}</p>
             </div>
           </div>
-          <button className="text-md font-medium mt-1 cursor-pointer w-fit hover:pl-1 pl-0 transition-all text-white md:text-primary" onClick={handleHubungiUmkm}>Hubungi UMKM →</button>
+          <button
+            className="text-md font-medium mt-1 cursor-pointer w-fit hover:pl-1 pl-0 transition-all text-white md:text-primary"
+            onClick={handleHubungiUmkm}
+          >
+            Hubungi UMKM →
+          </button>
         </div>
       </div>
       <div className="py-10 px-5 md:px-0 md:py-[3%] md:px-[6%]">
@@ -68,7 +77,11 @@ export default function UmkmDetail() {
           <div className="grid grid-cols-2 md:grid-cols-5 gap-3 md:gap-5">
             {umkm?.product?.map((product: UmkmProduct) => (
               <div key={product.id} className="flex flex-col gap-2">
-                <img src={product.image} alt={product.name} className="w-full object-cover h-40 md:h-50 rounded-lg" />
+                <img
+                  src={product.image}
+                  alt={product.name}
+                  className="w-full object-cover h-40 md:h-50 rounded-lg"
+                />
                 <h1 className="font-bold md:text-xl">{product.name}</h1>
                 <p className="md:text-sm text-xs">{product.description}</p>
                 <div className="flex flex-row items-center mt-5 justify-between">
@@ -76,7 +89,10 @@ export default function UmkmDetail() {
                     <p className="md:text-sm text-xs">Harga</p>
                     <p className="text-xs md:text-lg font-bold">Rp {product.price}</p>
                   </div>
-                  <button className="w-fit bg-primary md:text-md text-xs rounded-full md:px-6 px-5 font-semibold text-white py-1 md:py-2 cursor-pointer" onClick={() => handleBeli(product.name)}>
+                  <button
+                    className="w-fit bg-primary md:text-md text-xs rounded-full md:px-6 px-5 font-semibold text-white py-1 md:py-2 cursor-pointer"
+                    onClick={() => handleBeli(product.name)}
+                  >
                     <p>Beli</p>
                   </button>
                 </div>

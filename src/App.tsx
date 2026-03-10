@@ -20,9 +20,7 @@ import AdminLayout from '@/components/layout/AdminLayout';
 
 const AdminRoute = ({ children }: { children: React.ReactNode }) => (
   <ProtectAdmin>
-    <AdminLayout>
-      {children}
-    </AdminLayout>
+    <AdminLayout>{children}</AdminLayout>
   </ProtectAdmin>
 );
 
@@ -53,7 +51,7 @@ function App() {
         {publicRoutes.map((route) => (
           <Route key={route.path} path={route.path} element={route.element} />
         ))}
-        
+
         {adminRoutes.map((route) => (
           <Route
             key={route.path}
@@ -61,10 +59,10 @@ function App() {
             element={<AdminRoute>{route.element}</AdminRoute>}
           />
         ))}
-        
-        <Route path='/admin/login' element={<Login />} />
-        
-        <Route path='*' element={<NotFound />} />
+
+        <Route path="/admin/login" element={<Login />} />
+
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
   );

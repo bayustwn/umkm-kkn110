@@ -22,7 +22,10 @@ export default function AddNews() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!canSubmit()) { toast.error('Mohon lengkapi semua field'); return; }
+    if (!canSubmit()) {
+      toast.error('Mohon lengkapi semua field');
+      return;
+    }
 
     const data = new FormData();
     data.append('image', formData.image!);
@@ -43,19 +46,48 @@ export default function AddNews() {
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">Gambar Berita *</label>
-            <ImageUpload value={formData.image} onChange={(file) => setFormData(d => ({ ...d, image: file }))} className="w-full h-100 mt-2" placeholder="Upload Gambar" />
+            <ImageUpload
+              value={formData.image}
+              onChange={(file) => setFormData((d) => ({ ...d, image: file }))}
+              className="w-full h-100 mt-2"
+              placeholder="Upload Gambar"
+            />
           </div>
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">Judul Berita *</label>
-            <input type="text" value={formData.title} onChange={e => setFormData(d => ({ ...d, title: e.target.value }))} className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all" placeholder="Masukkan judul berita" />
+            <input
+              type="text"
+              value={formData.title}
+              onChange={(e) => setFormData((d) => ({ ...d, title: e.target.value }))}
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all"
+              placeholder="Masukkan judul berita"
+            />
           </div>
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">Konten Berita *</label>
-            <textarea ref={textareaRef} value={formData.content} onChange={e => setFormData(d => ({ ...d, content: e.target.value }))} className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all resize-none overflow-hidden" placeholder="Masukkan konten berita..." />
+            <textarea
+              ref={textareaRef}
+              value={formData.content}
+              onChange={(e) => setFormData((d) => ({ ...d, content: e.target.value }))}
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all resize-none overflow-hidden"
+              placeholder="Masukkan konten berita..."
+            />
           </div>
           <div className="flex gap-2 pt-2">
-            <button type="button" onClick={() => navigate('/admin/berita')} className="px-6 py-2 border border-gray-300 text-gray-700 rounded-full hover:bg-gray-50 transition-colors">Batal</button>
-            <button type="submit" disabled={!canSubmit() || createNews.isPending} className="px-6 py-2 bg-primary text-white rounded-full hover:bg-primary/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">{createNews.isPending ? 'Menambahkan...' : 'Tambah Berita'}</button>
+            <button
+              type="button"
+              onClick={() => navigate('/admin/berita')}
+              className="px-6 py-2 border border-gray-300 text-gray-700 rounded-full hover:bg-gray-50 transition-colors"
+            >
+              Batal
+            </button>
+            <button
+              type="submit"
+              disabled={!canSubmit() || createNews.isPending}
+              className="px-6 py-2 bg-primary text-white rounded-full hover:bg-primary/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {createNews.isPending ? 'Menambahkan...' : 'Tambah Berita'}
+            </button>
           </div>
         </form>
       </div>

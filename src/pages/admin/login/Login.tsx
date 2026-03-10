@@ -24,11 +24,15 @@ export default function Login() {
         <div className="relative z-10 bg-white bg-opacity-95 backdrop-blur-sm rounded-2xl shadow-2xl p-8 md:p-12 w-full max-w-md mx-4">
           <div className="flex flex-col items-center mb-8">
             <h1 className="text-2xl font-bold text-gray-800 mb-2">Admin Login</h1>
-            <p className="text-gray-600 text-sm text-center">Masuk ke panel admin UMKM Manukan Wetan</p>
+            <p className="text-gray-600 text-sm text-center">
+              Masuk ke panel admin UMKM Manukan Wetan
+            </p>
           </div>
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
-              <label htmlFor="username" className="block text-sm font-semibold text-gray-700 mb-2">Username</label>
+              <label htmlFor="username" className="block text-sm font-semibold text-gray-700 mb-2">
+                Username
+              </label>
               <input
                 type="text"
                 id="username"
@@ -40,7 +44,9 @@ export default function Login() {
               />
             </div>
             <div>
-              <label htmlFor="password" className="block text-sm font-semibold text-gray-700 mb-2">Password</label>
+              <label htmlFor="password" className="block text-sm font-semibold text-gray-700 mb-2">
+                Password
+              </label>
               <input
                 type="password"
                 id="password"

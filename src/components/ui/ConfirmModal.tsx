@@ -51,13 +51,23 @@ export default function ConfirmModal({
       <div className="absolute inset-0 bg-black/50" onClick={onClose} />
       <div className="relative bg-white rounded-lg shadow-xl p-6 w-full max-w-md mx-4">
         <div className="text-center">
-          <div className={`mx-auto flex items-center justify-center h-12 w-12 rounded-full ${style.iconBg} mb-4`}>
-            <svg className={`w-6 h-6 ${style.iconColor}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div
+            className={`mx-auto flex items-center justify-center h-12 w-12 rounded-full ${style.iconBg} mb-4`}
+          >
+            <svg
+              className={`w-6 h-6 ${style.iconColor}`}
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={style.icon} />
             </svg>
           </div>
           <h3 className="text-lg font-semibold text-gray-900 mb-2">{title}</h3>
-          <div className="text-sm text-gray-600 mb-6" dangerouslySetInnerHTML={{ __html: message }} />
+          <div
+            className="text-sm text-gray-600 mb-6"
+            dangerouslySetInnerHTML={{ __html: message }}
+          />
           <div className="flex gap-2 justify-center">
             <button
               onClick={onClose}
