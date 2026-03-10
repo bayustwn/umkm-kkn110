@@ -86,10 +86,10 @@ export default function UmkmAdmin() {
       <div>
         <div className="my-4">
           <div className="flex flex-row gap-2 items-center"><img src="/icons/location.svg" alt="location" className="w-4 h-4" /><p className="text-sm line-clamp-1">{item.address}</p></div>
-          <div className="flex flex-row gap-2 mt-3 items-center"><img src="/icons/product.svg" alt="product" className="w-4 h-4" /><p className="text-sm">{item.jumlahProduk} Produk</p></div>
+          <div className="flex flex-row gap-2 mt-3 items-center"><img src="/icons/product.svg" alt="product" className="w-4 h-4" /><p className="text-sm">{item.productCount} Produk</p></div>
         </div>
         <div className="mt-5 flex flex-row items-center justify-between">
-          <div className="flex flex-col items-start"><p className="text-sm">Mulai dari</p><p className="text-lg font-bold">Rp {item.hargaTermurah}</p></div>
+          <div className="flex flex-col items-start"><p className="text-sm">Mulai dari</p><p className="text-lg font-bold">Rp {item.lowestPrice}</p></div>
           <div className="flex gap-2 mt-2">
             <button onClick={() => setUmkmToDelete(item)} className="text-sm font-medium text-red-600 transition-colors cursor-pointer">Hapus</button>
             <button onClick={() => navigate(`/admin/umkm/edit/${item.id}`)} className="text-sm font-medium text-primary transition-colors cursor-pointer">Edit</button>

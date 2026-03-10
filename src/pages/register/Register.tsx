@@ -163,10 +163,10 @@ export default function Register() {
                   <div>
                     <div className="my-4">
                       <div className="flex flex-row gap-2 items-center"><img src="/icons/location.svg" alt="location" className="w-4 h-4" /><p className="text-sm line-clamp-1">{umkm.address}</p></div>
-                      <div className="flex flex-row gap-2 mt-3 items-center"><img src="/icons/product.svg" alt="product" className="w-4 h-4" /><p className="text-sm">{umkm.jumlahProduk} Produk</p></div>
+                      <div className="flex flex-row gap-2 mt-3 items-center"><img src="/icons/product.svg" alt="product" className="w-4 h-4" /><p className="text-sm">{umkm.productCount} Produk</p></div>
                     </div>
                     <div className="mt-5 flex flex-row items-center justify-between">
-                      <div className="flex flex-col items-start"><p className="text-sm">Mulai dari</p><p className="text-lg font-bold">Rp {umkm.hargaTermurah}</p></div>
+                      <div className="flex flex-col items-start"><p className="text-sm">Mulai dari</p><p className="text-lg font-bold">Rp {umkm.lowestPrice}</p></div>
                       <button onClick={() => goToUmkmDetail(umkm.id)} className="cursor-pointer hover:bg-primary/80 transition-all flex px-5 py-1 font-normal text-white rounded-full justify-center bg-primary items-center w-fit"><p>Lihat</p></button>
                     </div>
                   </div>

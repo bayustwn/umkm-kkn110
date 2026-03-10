@@ -120,8 +120,8 @@ export default function Home() {
                     image={umkm.image}
                     address={umkm.address}
                     category={umkm.category.name}
-                    hargaTermurah={umkm.hargaTermurah}
-                    jumlahProduk={umkm._count.product}
+                    lowestPrice={umkm.lowestPrice}
+                    productCount={umkm._count.product}
                     onNavigate={goToUmkmDetail}
                   />
                 ))}

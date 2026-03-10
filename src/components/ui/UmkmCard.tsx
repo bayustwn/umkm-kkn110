@@ -5,8 +5,8 @@ interface UmkmCardProps {
   image: string;
   address: string;
   category: string;
-  hargaTermurah: number;
-  jumlahProduk: number;
+  lowestPrice: number;
+  productCount: number;
   onNavigate: (id: string) => void;
 }
 
@@ -16,8 +16,8 @@ export default function UmkmCard({
   image,
   address,
   category,
-  hargaTermurah,
-  jumlahProduk,
+  lowestPrice,
+  productCount,
   id,
   onNavigate,
 }: UmkmCardProps) {
@@ -39,13 +39,13 @@ export default function UmkmCard({
           </div>
           <div className="flex flex-row gap-2 mt-3 items-center">
             <img src="/icons/product.svg" alt="product" className="w-4 h-4" />
-            <p className="text-sm">{jumlahProduk} Produk</p>
+            <p className="text-sm">{productCount} Produk</p>
           </div>
         </div>
         <div className="mt-5 flex flex-row items-center justify-between">
           <div className="flex flex-col items-start">
             <p className="text-sm">Mulai dari</p>
-            <p className="text-lg font-bold">Rp {hargaTermurah}</p>
+            <p className="text-lg font-bold">Rp {lowestPrice}</p>
           </div>
           <button
             onClick={() => onNavigate(id)}

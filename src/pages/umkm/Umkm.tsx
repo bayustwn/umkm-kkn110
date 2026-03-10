@@ -88,7 +88,7 @@ export default function UmkmPage() {
                 <p className="col-span-4 text-center text-gray-500 py-10">UMKM tidak ditemukan</p>
               ) : (
                 filteredUMKM.map((item) => (
-                  <UmkmCard key={item.id} id={item.id} name={item.name} description={item.description} image={item.image} address={item.address} category={item.category} hargaTermurah={item.hargaTermurah} jumlahProduk={item.jumlahProduk} onNavigate={goToUmkmDetail} />
+                  <UmkmCard key={item.id} id={item.id} name={item.name} description={item.description} image={item.image} address={item.address} category={item.category} lowestPrice={item.lowestPrice} productCount={item.productCount} onNavigate={goToUmkmDetail} />
                 ))
               )}
             </div>

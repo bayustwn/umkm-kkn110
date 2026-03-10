@@ -37,8 +37,8 @@ export interface UmkmListItem {
   image: string;
   address: string;
   category: string;
-  hargaTermurah: number;
-  jumlahProduk: number;
+  lowestPrice: number;
+  productCount: number;
 }
 
 /** UMKM list item (from /dashboard endpoint — nested category) */
@@ -49,7 +49,7 @@ export interface UmkmDashboardItem {
   image: string;
   address: string;
   category: Category;
-  hargaTermurah: number;
+  lowestPrice: number;
   _count: { product: number };
 }
 
@@ -96,8 +96,8 @@ export interface AdminUmkmItem {
   image: string;
   status: 'active' | 'pending';
   category: string;
-  hargaTermurah: number;
-  jumlahProduk: number;
+  lowestPrice: number;
+  productCount: number;
 }
 
 // ============================================
