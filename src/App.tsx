@@ -1,22 +1,22 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import Home from './pages/home/Home';
-import NotFound from './pages/404/NotFound';
-import Berita from './pages/berita/Berita';
-import BeritaDetail from './pages/berita/detail/BeritaDetail';
-import ScrollToTop from './components/ScrollToTop';
-import UMKM from './pages/umkm/Umkm';
-import DetailUmkm from './pages/umkm/detail/DetailUmkm';
-import Register from './pages/register/Register';
-import Login from './pages/admin/login/Login';
-import Dashboard from './pages/admin/dashboard/Dashboard';
-import Umkm from './pages/admin/umkm/Umkm';
-import BeritaAdmin from './pages/admin/berita/Berita';
-import TambahBerita from './pages/admin/berita/TambahBerita';
-import EditBerita from './pages/admin/berita/EditBerita';
-import TambahUmkm from './pages/admin/umkm/TambahUmkm';
-import EditUmkm from './pages/admin/umkm/EditUmkm';
-import ProtectAdmin from './components/ProtectAdmin';
-import AdminLayout from './components/AdminLayout';
+import Home from '@/pages/home/Home';
+import NotFound from '@/pages/404/NotFound';
+import Berita from '@/pages/berita/Berita';
+import BeritaDetail from '@/pages/berita/detail/BeritaDetail';
+import ScrollToTop from '@/components/ScrollToTop';
+import UMKM from '@/pages/umkm/Umkm';
+import DetailUmkm from '@/pages/umkm/detail/DetailUmkm';
+import Register from '@/pages/register/Register';
+import Login from '@/pages/admin/login/Login';
+import Dashboard from '@/pages/admin/dashboard/Dashboard';
+import Umkm from '@/pages/admin/umkm/Umkm';
+import BeritaAdmin from '@/pages/admin/berita/Berita';
+import TambahBerita from '@/pages/admin/berita/TambahBerita';
+import EditBerita from '@/pages/admin/berita/EditBerita';
+import TambahUmkm from '@/pages/admin/umkm/TambahUmkm';
+import EditUmkm from '@/pages/admin/umkm/EditUmkm';
+import ProtectAdmin from '@/components/guards/ProtectAdmin';
+import AdminLayout from '@/components/layout/AdminLayout';
 
 const AdminRoute = ({ children }: { children: React.ReactNode }) => (
   <ProtectAdmin>

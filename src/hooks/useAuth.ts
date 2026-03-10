@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { userApi } from '../api/userApi';
-import type { UpdateProfileInput } from '../types';
+import { userApi } from '@/api/userApi';
+import type { UpdateProfileInput } from '@/types';
 import Cookies from 'js-cookie';
 import toast from 'react-hot-toast';
 

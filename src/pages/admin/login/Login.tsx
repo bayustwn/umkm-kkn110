@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import toast from 'react-hot-toast';
 import Cookies from 'js-cookie';
-import apiClient from '../../../api/client';
+import apiClient from '@/api/client';
 import { useNavigate } from 'react-router-dom';
-import ProtectLogin from '../../../components/ProtectLogin';
+import ProtectLogin from '@/components/guards/ProtectLogin';
 
 export default function Login() {
     const [formData, setFormData] = useState({

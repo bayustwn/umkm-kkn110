@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import apiClient from '../../../api/client';
+import apiClient from '@/api/client';
 import toast from 'react-hot-toast';
 import { useNavigate, useParams } from 'react-router-dom';
 

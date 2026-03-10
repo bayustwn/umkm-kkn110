@@ -2,7 +2,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
 import toast from 'react-hot-toast';
-import apiClient from '../api/client';
+import apiClient from '@/api/client';
 
 export default function Sidebar() {
     const location = useLocation();

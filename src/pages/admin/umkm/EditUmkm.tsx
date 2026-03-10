@@ -1,8 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
-import apiClient from '../../../api/client';
-import MapPicker from '../../../components/MapPicker';
+import apiClient from '@/api/client';
+import MapPicker from '@/components/MapPicker';
 
 export default function EditUmkm() {
     const { id } = useParams<string>();

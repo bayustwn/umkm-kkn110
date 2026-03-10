@@ -1,5 +1,5 @@
 import apiClient from './client';
-import type { UserInfo, UpdateProfileInput } from '../types';
+import type { UserInfo, UpdateProfileInput } from '@/types';
 import Cookies from 'js-cookie';
 
 export const userApi = {

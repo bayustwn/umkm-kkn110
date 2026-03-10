@@ -1,5 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { umkmApi } from '../api/umkmApi';
+import { umkmApi } from '@/api/umkmApi';
 import toast from 'react-hot-toast';
 
 export function useUmkm() {

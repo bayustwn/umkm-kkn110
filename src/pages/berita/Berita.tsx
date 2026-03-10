@@ -1,9 +1,9 @@
 import { useEffect, useState, useRef } from "react"
-import Footer from "../../components/Footer"
-import useNavigation from "../../hooks/useNavigation"
-import apiClient from "../../api/client"
+import Footer from '@/components/layout/Footer"
+import useNavigation from '@/hooks/useNavigation"
+import apiClient from '@/api/client"
 import toast from "react-hot-toast"
-import { formatDate } from "../../utils/formatDate"
+import { formatDate } from '@/utils/formatDate"
 
 // Skeleton Components
 const FeaturedNewsSkeleton = () => (

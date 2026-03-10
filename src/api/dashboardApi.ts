@@ -1,5 +1,5 @@
 import apiClient from './client';
-import type { DashboardResponse } from '../types';
+import type { DashboardResponse } from '@/types';
 
 export const dashboardApi = {
   getDashboard: async (): Promise<DashboardResponse> => {

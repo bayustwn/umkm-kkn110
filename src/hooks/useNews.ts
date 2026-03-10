@@ -1,5 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { newsApi } from '../api/newsApi';
+import { newsApi } from '@/api/newsApi';
 import toast from 'react-hot-toast';
 
 export function useNews() {

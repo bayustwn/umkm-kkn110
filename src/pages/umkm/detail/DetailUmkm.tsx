@@ -1,5 +1,5 @@
-import Navbar from "../../../components/Navbar";
-import apiClient from "../../../api/client";
+import Navbar from '@/components/layout/Navbar";
+import apiClient from '@/api/client";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import toast from "react-hot-toast";

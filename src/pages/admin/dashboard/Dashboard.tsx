@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { toast } from 'react-hot-toast';
-import apiClient from '../../../api/client';
-import { formatDate } from '../../../utils/formatDate';
+import apiClient from '@/api/client';
+import { formatDate } from '@/utils/formatDate';
 
 // Skeleton Components
 const StatsCardSkeleton = () => (

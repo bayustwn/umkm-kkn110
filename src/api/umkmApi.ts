@@ -1,5 +1,5 @@
 import apiClient from './client';
-import type { Umkm, UmkmListItem, AdminUmkmItem, Category } from '../types';
+import type { Umkm, UmkmListItem, AdminUmkmItem, Category } from '@/types';
 
 export const umkmApi = {
   getAll: async (): Promise<UmkmListItem[]> => {

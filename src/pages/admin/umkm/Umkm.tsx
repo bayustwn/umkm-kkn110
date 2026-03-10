@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import useNavigation from '../../../hooks/useNavigation';
-import apiClient from '../../../api/client';
+import useNavigation from '@/hooks/useNavigation';
+import apiClient from '@/api/client';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 
