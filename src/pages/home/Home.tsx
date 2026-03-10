@@ -1,10 +1,10 @@
 import { useEffect, useRef, useState } from "react";
-import Navbar from '@/components/layout/Navbar";
-import useNavigation from '@/hooks/useNavigation";
-import apiClient from '@/api/client";
+import Navbar from '@/components/layout/Navbar';
+import useNavigation from '@/hooks/useNavigation';
+import apiClient from '@/api/client';
 import toast from "react-hot-toast";
-import { formatDate } from '@/utils/formatDate";
-import Footer from '@/components/layout/Footer";
+import { formatDate } from '@/utils/formatDate';
+import Footer from '@/components/layout/Footer';
 
 // Skeleton Components
 const NewsSkeleton = () => (

@@ -1,11 +1,11 @@
 import { useParams } from "react-router-dom";
-import Footer from '@/components/layout/Footer";
-import Navbar from '@/components/layout/Navbar";
-import useNavigation from '@/hooks/useNavigation";
+import Footer from '@/components/layout/Footer';
+import Navbar from '@/components/layout/Navbar';
+import useNavigation from '@/hooks/useNavigation';
 import toast from "react-hot-toast";
-import apiClient from '@/api/client";
+import apiClient from '@/api/client';
 import { useEffect, useState, useRef } from "react";
-import { formatDate } from '@/utils/formatDate";
+import { formatDate } from '@/utils/formatDate';
 
 
 export default function BeritaDetail() {
