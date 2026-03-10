@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import Navbar from "../../components/Navbar";
 import RouterNavigation from "../../utils/navigation";
-import Api from "../../components/Api";
+import apiClient from "../../api/client";
 import toast from "react-hot-toast";
 import { formatDate } from "../../utils/formatDate";
 import Footer from "../../components/Footer";
@@ -98,7 +98,7 @@ export default function Home() {
   const loadData = async () => {
     try {
       setIsLoading(true);
-      await Api.get("/dashboard").then(res => {
+      await apiClient.get("/dashboard").then(res => {
         setData(res.data.data)
       })
     } catch (error) {

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import toast from 'react-hot-toast';
 import Cookies from 'js-cookie';
-import Api from '../../../components/Api';
+import apiClient from '../../../api/client';
 import { useNavigate } from 'react-router-dom';
 import ProtectLogin from '../../../components/ProtectLogin';
 
@@ -26,7 +26,7 @@ export default function Login() {
         }
         setIsLoading(true);
         try {
-            const res = await Api.post('/user/login', {
+            const res = await apiClient.post('/user/login', {
                 username: formData.username,
                 password: formData.password
             });

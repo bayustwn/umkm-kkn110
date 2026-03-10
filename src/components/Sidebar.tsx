@@ -2,7 +2,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
 import toast from 'react-hot-toast';
-import Api from './Api';
+import apiClient from '../api/client';
 
 export default function Sidebar() {
     const location = useLocation();
@@ -29,7 +29,7 @@ export default function Sidebar() {
 
     const fetchUserData = async () => {
         try {
-            const res = await Api.get('/user/info');
+            const res = await apiClient.get('/user/info');
             if (res.data.data) {
                 setUserData(prev => ({
                     ...prev,
@@ -64,7 +64,7 @@ export default function Sidebar() {
             if (userData.currentPassword) updateData.currentPassword = userData.currentPassword;
             if (userData.newPassword) updateData.newPassword = userData.newPassword;
 
-            const res = await Api.put('/user/update', updateData, {
+            const res = await apiClient.put('/user/update', updateData, {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }

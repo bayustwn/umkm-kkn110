@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import RouterNavigation from '../../utils/navigation';
-import Api from '../../components/Api';
+import apiClient from '../../api/client';
 import toast from 'react-hot-toast';
 
 // Skeleton Components
@@ -84,7 +84,7 @@ export default function UMKM() {
 
     const getAllUMKM = async () => {
         try {
-            await Api.get("/umkm").then(res=>{
+            await apiClient.get("/umkm").then(res=>{
                 setUmkm(res.data.data)
             })
         } catch (error) {
@@ -94,7 +94,7 @@ export default function UMKM() {
 
     const getAllCategory = async()=>{
         try {
-            await Api.get("/umkm/category").then(res=>{
+            await apiClient.get("/umkm/category").then(res=>{
                 setCategory(res.data.data)
             })
         } catch (error) {

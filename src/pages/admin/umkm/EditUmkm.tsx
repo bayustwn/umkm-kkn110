@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
-import Api from '../../../components/Api';
+import apiClient from '../../../api/client';
 import MapPicker from '../../../components/MapPicker';
 
 export default function EditUmkm() {
@@ -30,7 +30,7 @@ export default function EditUmkm() {
 
     const fetchKategori = async () => {
         try {
-            const res = await Api.get('/umkm/category');
+            const res = await apiClient.get('/umkm/category');
             setKategori(res.data.data);
         } catch (error) {
             toast.error('Gagal mengambil data kategori');
@@ -39,7 +39,7 @@ export default function EditUmkm() {
 
     const fetchUmkmData = async () => {
         try {
-            const res = await Api.get(`/umkm/${id}`);
+            const res = await apiClient.get(`/umkm/${id}`);
             const umkm = res.data.data;
             
             setUmkmData({
@@ -135,12 +135,12 @@ export default function EditUmkm() {
             formData.append('latitude', umkmData.latitude.toString());
             formData.append('longitude', umkmData.longitude.toString());
 
-            await Api.patch(`/umkm/${id}`, formData, {
+            await apiClient.patch(`/umkm/${id}`, formData, {
                 headers: { 'Content-Type': 'multipart/form-data' },
             });
 
             // Update products if any
-            const existingProducts = await Api.get(`/umkm/${id}`);
+            const existingProducts = await apiClient.get(`/umkm/${id}`);
             const currentProducts = existingProducts.data.data.product;
             
             // Update existing products
@@ -157,7 +157,7 @@ export default function EditUmkm() {
                         productFormData.append('image', produk.foto);
                     }
 
-                    await Api.patch(`/umkm/product/${productId}`, productFormData, {
+                    await apiClient.patch(`/umkm/product/${productId}`, productFormData, {
                         headers: { 'Content-Type': 'multipart/form-data' },
                     });
                 } else {
@@ -170,7 +170,7 @@ export default function EditUmkm() {
                         productFormData.append('image', produk.foto);
                     }
 
-                    await Api.post('/umkm/product', productFormData, {
+                    await apiClient.post('/umkm/product', productFormData, {
                         headers: { 'Content-Type': 'multipart/form-data' },
                     });
                 }

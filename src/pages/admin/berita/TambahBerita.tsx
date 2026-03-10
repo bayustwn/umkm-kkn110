@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import Api from '../../../components/Api';
+import apiClient from '../../../api/client';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 
@@ -50,7 +50,7 @@ export default function TambahBerita() {
         formData.append('content', beritaData.content);
 
         try {
-            await Api.post('/news/upload', formData, {
+            await apiClient.post('/news/upload', formData, {
                 headers: { 'Content-Type': 'multipart/form-data' },
             });
             toast.success('Berita berhasil ditambahkan!');

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import Api from './Api';
+import apiClient from '../api/client';
 
 interface UserInfo {
   telp: string;
@@ -18,7 +18,7 @@ export default function Footer() {
   useEffect(() => {
     const fetchUserInfo = async () => {
       try {
-        const response = await Api.get('/user/info');
+        const response = await apiClient.get('/user/info');
         if (response.data.data) {
           setUserInfo(response.data.data);
         }

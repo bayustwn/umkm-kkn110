@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import RouterNavigation from '../../../utils/navigation';
-import Api from '../../../components/Api';
+import apiClient from '../../../api/client';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 
@@ -115,7 +115,7 @@ export default function UmkmAdmin() {
 
     const getAllUMKM = async () => {
         try {
-            await Api.get("/umkm/admin").then(res => {
+            await apiClient.get("/umkm/admin").then(res => {
                 setUmkm(res.data.data)
             })
         } catch (error) {
@@ -125,7 +125,7 @@ export default function UmkmAdmin() {
 
     const getAllCategory = async () => {
         try {
-            await Api.get("/umkm/category").then(res => {
+            await apiClient.get("/umkm/category").then(res => {
                 setCategory(res.data.data)
             })
         } catch (error) {
@@ -160,7 +160,7 @@ export default function UmkmAdmin() {
         setIsDeleting(true);
         
         try {
-            await Api.delete(`/umkm/${umkmToDelete.id}`);
+            await apiClient.delete(`/umkm/${umkmToDelete.id}`);
             toast.success('UMKM berhasil dihapus');
             getAllUMKM(); 
         } catch (error: any) {
@@ -183,7 +183,7 @@ export default function UmkmAdmin() {
         setIsApproving(true);
         
         try {
-            await Api.patch(`/umkm/approve/${umkmToApprove.id}`);
+            await apiClient.patch(`/umkm/approve/${umkmToApprove.id}`);
             toast.success('UMKM berhasil disetujui');
             getAllUMKM(); 
         } catch (error) {
@@ -203,7 +203,7 @@ export default function UmkmAdmin() {
         setIsAddingCategory(true);
         
         try {
-            await Api.post('/umkm/category', { name: newCategoryName.trim() });
+            await apiClient.post('/umkm/category', { name: newCategoryName.trim() });
             toast.success('Kategori berhasil ditambahkan');
             setNewCategoryName('');
             setShowAddCategoryModal(false);
@@ -227,7 +227,7 @@ export default function UmkmAdmin() {
         setIsDeletingCategory(true);
         
         try {
-            await Api.delete(`/umkm/category/${categoryToDelete.id}`);
+            await apiClient.delete(`/umkm/category/${categoryToDelete.id}`);
             toast.success('Kategori berhasil dihapus');
             getAllCategory();
             // Reset selected categories if the deleted category was selected

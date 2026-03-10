@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { toast } from 'react-hot-toast';
-import Api from '../../../components/Api';
+import apiClient from '../../../api/client';
 import { formatDate } from '../../../utils/formatDate';
 
 // Skeleton Components
@@ -116,11 +116,11 @@ export default function Dashboard() {
         try {
             setIsLoading(true);
             
-            const newsRes = await Api.get('/news');
+            const newsRes = await apiClient.get('/news');
             const newsData = newsRes.data.data || [];
             console.log(newsData);
             
-            const umkmRes = await Api.get('/umkm/admin');
+            const umkmRes = await apiClient.get('/umkm/admin');
             const umkmData = umkmRes.data.data || [];
             
             const totalBerita = newsData.length;

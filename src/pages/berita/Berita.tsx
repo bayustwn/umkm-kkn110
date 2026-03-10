@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from "react"
 import Footer from "../../components/Footer"
 import RouterNavigation from "../../utils/navigation"
-import Api from "../../components/Api"
+import apiClient from "../../api/client"
 import toast from "react-hot-toast"
 import { formatDate } from "../../utils/formatDate"
 
@@ -75,7 +75,7 @@ export default function Berita() {
     const loadNews = async() =>{
         setIsLoading(true);
         try {
-            await Api.get("/news").then(res=>{
+            await apiClient.get("/news").then(res=>{
                 setNews(res.data.data)
             })
         } catch (error) {

@@ -3,7 +3,7 @@ import Footer from "../../../components/Footer";
 import Navbar from "../../../components/Navbar";
 import RouterNavigation from "../../../utils/navigation";
 import toast from "react-hot-toast";
-import Api from "../../../components/Api";
+import apiClient from "../../../api/client";
 import { useEffect, useState, useRef } from "react";
 import { formatDate } from "../../../utils/formatDate";
 
@@ -18,7 +18,7 @@ export default function BeritaDetail() {
 
     const getNewsById = async () => {
         try {
-            await Api.get("/news/" + id).then(res=>{
+            await apiClient.get("/news/" + id).then(res=>{
                 setNews(res.data.data)
             })
         } catch (error) {
@@ -28,7 +28,7 @@ export default function BeritaDetail() {
 
     const getOther = async () => {
         try {
-            await Api.get("/news/other/" + id).then(res=>{
+            await apiClient.get("/news/other/" + id).then(res=>{
                 setOtherNews(res.data.data)
             })
         } catch (error) {

@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import Navbar from '../../components/Navbar';
 import Footer from '../../components/Footer';
 import RouterNavigation from '../../utils/navigation';
-import Api from '../../components/Api';
+import apiClient from '../../api/client';
 import toast from 'react-hot-toast';
 import MapPicker from '../../components/MapPicker';
 
@@ -29,7 +29,7 @@ export default function Register() {
     const [umkmName, setUmkmName] = useState('');
     const fetchKategori = async () => {
         try {
-            const res = await Api.get("/umkm/category");
+            const res = await apiClient.get("/umkm/category");
             setKategori(res.data.data);
         } catch {
             setKategori([]);
@@ -38,7 +38,7 @@ export default function Register() {
     };
     const fetchUmkmPreview = async () => {
         try {
-            const res = await Api.get("/umkm/preview");
+            const res = await apiClient.get("/umkm/preview");
             setUmkmPreview(res.data.data);
         } catch {
             setUmkmPreview([]);
@@ -90,7 +90,7 @@ export default function Register() {
         formData.append('latitude', umkmData.latitude.toString());
         formData.append('longitude', umkmData.longitude.toString());
         try {
-            const res = await Api.post('/umkm/register', formData, {
+            const res = await apiClient.post('/umkm/register', formData, {
                 headers: { 'Content-Type': 'multipart/form-data' },
             });
             const umkm = res.data.data;
@@ -103,7 +103,7 @@ export default function Register() {
                 if (produk.deskripsi) produkForm.append('description', produk.deskripsi);
                 if (produk.foto) produkForm.append('image', produk.foto);
                 try {
-                    await Api.post('/umkm/product', produkForm, {
+                    await apiClient.post('/umkm/product', produkForm, {
                         headers: { 'Content-Type': 'multipart/form-data' },
                     });
                 } catch (err: any) {

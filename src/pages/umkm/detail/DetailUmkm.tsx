@@ -1,5 +1,5 @@
 import Navbar from "../../../components/Navbar";
-import Api from "../../../components/Api";
+import apiClient from "../../../api/client";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import toast from "react-hot-toast";
@@ -12,7 +12,7 @@ export default function DetailUmkm() {
     const getUmkmById = async () => {
         try {
             setIsLoading(true);
-            await Api.get(`/umkm/${id}`).then(res=>{
+            await apiClient.get(`/umkm/${id}`).then(res=>{
                 setUmkm(res.data.data)
             })
         } catch (error) {

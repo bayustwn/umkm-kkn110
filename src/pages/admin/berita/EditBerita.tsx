@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import Api from '../../../components/Api';
+import apiClient from '../../../api/client';
 import toast from 'react-hot-toast';
 import { useNavigate, useParams } from 'react-router-dom';
 
@@ -23,7 +23,7 @@ export default function EditBerita() {
             
             try {
                 setIsLoadingData(true);
-                const response = await Api.get(`/news/${id}`);
+                const response = await apiClient.get(`/news/${id}`);
                 const news = response.data.data;
                 
                 setBeritaData({
@@ -82,7 +82,7 @@ export default function EditBerita() {
         formData.append('content', beritaData.content);
 
         try {
-            await Api.patch(`/news/edit/${id}`, formData, {
+            await apiClient.patch(`/news/edit/${id}`, formData, {
                 headers: { 'Content-Type': 'multipart/form-data' },
             });
             toast.success('Berita berhasil diperbarui!');
