@@ -28,7 +28,7 @@ export default function ProtectAdmin({ children }: ProtectAdminProps) {
         toast.error('Sesi login telah berakhir, silakan login kembali.');
         navigate('/admin/login', { replace: true });
       }
-    } catch (e) {
+    } catch {
       Cookies.remove('token');
       navigate('/admin/login', { replace: true });
     }
