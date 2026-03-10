@@ -3,7 +3,7 @@ import Navbar from '@/components/layout/Navbar';
 import { useUmkmById } from '@/hooks/useUmkm';
 import { FullPageLoader } from '@/components/skeletons';
 
-export default function DetailUmkm() {
+export default function UmkmDetail() {
   const { id } = useParams();
   const { data: umkm, isLoading } = useUmkmById(id);
 

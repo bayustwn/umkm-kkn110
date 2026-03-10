@@ -37,7 +37,7 @@ const UmkmSectionSkeleton = () => (
 );
 
 export default function Home() {
-  const { goToUMKM, goToBerita, goToBeritaDetail, goToRegister, goToUMKMDetail } = useNavigation();
+  const { goToUmkm, goToNews, goToNewsDetail, goToRegister, goToUmkmDetail } = useNavigation();
   const { data, isLoading } = useDashboard();
   const targetRef = useRef<HTMLDivElement>(null);
 
@@ -80,7 +80,7 @@ export default function Home() {
             <h1 className="font-bold text-3xl">Berita Terkini</h1>
             <div className="flex flex-col md:flex-row gap-5 mt-2 items-start">
               {featuredNews && (
-                <div onClick={() => goToBeritaDetail(featuredNews.id)} className="w-full md:w-[55%] relative cursor-pointer mb-5 md:mb-0">
+                <div onClick={() => goToNewsDetail(featuredNews.id)} className="w-full md:w-[55%] relative cursor-pointer mb-5 md:mb-0">
                   <img src={featuredNews.image} className="h-90 md:h-130 rounded-md w-full object-cover" alt={featuredNews.title} />
                   <div className="absolute bottom-0 left-0 w-full h-full rounded-lg bg-gradient-to-t from-black/90 to-transparent" />
                   <div className="text-white flex flex-col gap-2 absolute bottom-0 left-0 p-5 md:p-8 z-10 w-full overflow-hidden">
@@ -92,12 +92,12 @@ export default function Home() {
               )}
               <div className="w-full md:w-[45%] flex flex-col gap-5">
                 {otherNews.map((news: any) => (
-                  <NewsCard key={news.id} id={news.id} title={news.title} content={news.content} image={news.image} createdAt={news.created_at} onNavigate={goToBeritaDetail} />
+                  <NewsCard key={news.id} id={news.id} title={news.title} content={news.content} image={news.image} createdAt={news.created_at} onNavigate={goToNewsDetail} />
                 ))}
               </div>
             </div>
             <div className="w-fit flex flex-row w-full mt-5 justify-center">
-              <div onClick={goToBerita} className="border cursor-pointer hover:scale-105 transition-all py-2 px-5 rounded-full">
+              <div onClick={goToNews} className="border cursor-pointer hover:scale-105 transition-all py-2 px-5 rounded-full">
                 <p>Baca Selengkapnya...</p>
               </div>
             </div>
@@ -135,7 +135,7 @@ export default function Home() {
                           <p className="text-sm">Mulai dari</p>
                           <p className="text-lg font-bold">Rp {umkm.hargaTermurah}</p>
                         </div>
-                        <div onClick={() => goToUMKMDetail(umkm.id)} className="cursor-pointer hover:bg-primary/80 transition-all flex px-5 py-1 font-normal text-white rounded-full justify-center bg-primary items-center w-fit">
+                        <div onClick={() => goToUmkmDetail(umkm.id)} className="cursor-pointer hover:bg-primary/80 transition-all flex px-5 py-1 font-normal text-white rounded-full justify-center bg-primary items-center w-fit">
                           <p>Lihat</p>
                         </div>
                       </div>
@@ -144,7 +144,7 @@ export default function Home() {
                 ))}
               </div>
               <div className="w-fit flex flex-row w-full mt-5 justify-center">
-                <div onClick={goToUMKM} className="border cursor-pointer hover:scale-105 transition-all py-2 px-5 rounded-full">
+                <div onClick={goToUmkm} className="border cursor-pointer hover:scale-105 transition-all py-2 px-5 rounded-full">
                   <p>Lihat Selengkapnya...</p>
                 </div>
               </div>

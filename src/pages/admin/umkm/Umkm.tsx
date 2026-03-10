@@ -73,7 +73,7 @@ const UmkmGridSkeleton = () => (
 export default function UmkmAdmin() {
     const [showModal, setShowModal] = useState(false);
     const [category, setCategory] = useState<any>([]);
-    const { goToUMKMDetail } = useNavigation();
+    const { goToUmkmDetail } = useNavigation();
     const navigate = useNavigate();
     const [umkm, setUmkm] = useState<any>([]);
     const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
@@ -138,7 +138,6 @@ export default function UmkmAdmin() {
             setIsLoading(true);
             await Promise.all([getAllUMKM(), getAllCategory()]);
         } catch (error) {
-            console.error('Error loading data:', error);
         } finally {
             setIsLoading(false);
         }
@@ -469,7 +468,7 @@ export default function UmkmAdmin() {
                                                             </button>
                                                         )}
                                                         <button
-                                                            onClick={() => goToUMKMDetail(umkm.id)}
+                                                            onClick={() => goToUmkmDetail(umkm.id)}
                                                             className="text-sm font-medium text-primary hover:text-primary/80 transition-colors cursor-pointer"
                                                         >
                                                             Lihat →

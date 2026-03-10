@@ -4,7 +4,7 @@ import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import MapPicker from '@/components/MapPicker';
 
-export default function TambahUmkm() {
+export default function AddUmkm() {
     const navigate = useNavigate();
     const [step, setStep] = useState(1);
     const [umkmData, setUmkmData] = useState({

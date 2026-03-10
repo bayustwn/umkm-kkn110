@@ -7,7 +7,7 @@ import toast from 'react-hot-toast';
 import MapPicker from '@/components/MapPicker';
 
 export default function Register() {
-    const { goToUMKMDetail, goToUMKM } = useNavigation();
+    const { goToUmkmDetail, goToUmkm } = useNavigation();
     const [step, setStep] = useState(1);
     const [umkmData, setUmkmData] = useState({
         foto: null as File | null,
@@ -144,7 +144,7 @@ export default function Register() {
                         <span className="text-lg font-semibold text-gray-700 text-center mb-6">Sukses mendaftarkan UMKM <span className='text-primary'>{umkmName}</span>, UMKM sedang ditinjau mohon dicek secara berkala.</span>
                         <button
                             className="mt-2 px-8 py-2 rounded-full bg-primary text-white font-semibold text-lg hover:bg-primary/90 transition"
-                            onClick={() => goToUMKM()}
+                            onClick={() => goToUmkm()}
                         >
                             Lihat UMKM
                         </button>
@@ -345,7 +345,7 @@ export default function Register() {
                                                 <p className="text-sm">Mulai dari</p>
                                                 <p className="text-lg font-bold">Rp {umkm.hargaTermurah}</p>
                                             </div>
-                                            <div onClick={() => goToUMKMDetail(umkm.id)} className="cursor-pointer hover:bg-primary/80 transition-all flex px-5 py-1 font-normal text-white rounded-full justify-center bg-primary items-center w-fit">
+                                            <div onClick={() => goToUmkmDetail(umkm.id)} className="cursor-pointer hover:bg-primary/80 transition-all flex px-5 py-1 font-normal text-white rounded-full justify-center bg-primary items-center w-fit">
                                                 <p>Lihat</p>
                                             </div>
                                         </div>
@@ -354,7 +354,7 @@ export default function Register() {
                             ))}
                         </div>
                         <div className=" w-fit flex flex-row w-full mt-5 justify-center">
-                            <div onClick={goToUMKM} className="border cursor-pointer hover:scale-105 transition-all py-2 px-5 rounded-full">
+                            <div onClick={goToUmkm} className="border cursor-pointer hover:scale-105 transition-all py-2 px-5 rounded-full">
                                 <p>Lihat Selengkapnya...</p>
                             </div>
                         </div>

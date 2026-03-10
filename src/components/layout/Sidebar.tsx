@@ -39,7 +39,6 @@ export default function Sidebar() {
                 }));
             }
         } catch (error) {
-            console.error('Error fetching user data:', error);
         }
     };
 
@@ -95,7 +94,6 @@ export default function Sidebar() {
             navigate('/admin/login', { replace: true });
             
         } catch (error) {
-            console.error('Logout error:', error);
             toast.error('Terjadi kesalahan saat logout');
         } finally {
             setIsLoggingOut(false);

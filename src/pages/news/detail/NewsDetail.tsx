@@ -8,7 +8,7 @@ import { FullPageLoader } from '@/components/skeletons';
 import { formatDate } from '@/utils/formatDate';
 
 export default function BeritaDetail() {
-  const { goToBeritaDetail, goToBerita } = useNavigation();
+  const { goToNewsDetail, goToNews } = useNavigation();
   const { id } = useParams();
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -51,11 +51,11 @@ export default function BeritaDetail() {
                   <p className="text-xs md:text-sm">{formatDate(item.created_at)}</p>
                   <h1 className="font-bold line-clamp-1">{item.title}</h1>
                   <p className="line-clamp-2 text-xs md:text-sm">{item.content}</p>
-                  <p onClick={() => goToBeritaDetail(item.id)} className="text-xs md:text-sm font-medium mt-1 cursor-pointer w-fit hover:pl-1 pl-0 transition-all text-primary">Lihat →</p>
+                  <p onClick={() => goToNewsDetail(item.id)} className="text-xs md:text-sm font-medium mt-1 cursor-pointer w-fit hover:pl-1 pl-0 transition-all text-primary">Lihat →</p>
                 </div>
               </div>
             ))}
-            <div onClick={goToBerita} className="w-fit flex flex-row w-full mt-3 md:mt-1 justify-center">
+            <div onClick={goToNews} className="w-fit flex flex-row w-full mt-3 md:mt-1 justify-center">
               <div className="border md:text-md text-sm cursor-pointer hover:scale-105 transition-all py-2 px-5 rounded-full">
                 <p>Lihat Selengkapnya...</p>
               </div>

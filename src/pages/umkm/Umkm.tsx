@@ -6,7 +6,7 @@ import { CategorySkeleton, UmkmCardSkeleton } from '@/components/skeletons';
 
 export default function UMKM() {
   const [showModal, setShowModal] = useState(false);
-  const { goToUMKMDetail } = useNavigation();
+  const { goToUmkmDetail } = useNavigation();
   const { data: umkm = [], isLoading: umkmLoading } = useUmkm();
   const { data: category = [], isLoading: catLoading } = useCategories();
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
@@ -105,7 +105,7 @@ export default function UMKM() {
                 <p className="col-span-4 text-center text-gray-500 py-10">UMKM tidak ditemukan</p>
               ) : (
                 filteredUMKM.map((item) => (
-                  <UmkmCard key={item.id} id={item.id} name={item.name} description={item.description} image={item.image} address={item.address} category={item.category} hargaTermurah={item.hargaTermurah} jumlahProduk={item.jumlahProduk} onNavigate={goToUMKMDetail} />
+                  <UmkmCard key={item.id} id={item.id} name={item.name} description={item.description} image={item.image} address={item.address} category={item.category} hargaTermurah={item.hargaTermurah} jumlahProduk={item.jumlahProduk} onNavigate={goToUmkmDetail} />
                 ))
               )}
             </div>

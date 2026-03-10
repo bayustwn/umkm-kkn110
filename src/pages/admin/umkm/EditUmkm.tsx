@@ -73,7 +73,6 @@ export default function EditUmkm() {
             setIsLoadingData(true);
             await Promise.all([fetchKategori(), fetchUmkmData()]);
         } catch (error) {
-            console.error('Error loading data:', error);
         } finally {
             setIsLoadingData(false);
         }
