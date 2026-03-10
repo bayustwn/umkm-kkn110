@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import { useCategories, useUmkmById } from '@/hooks/useUmkm';
@@ -6,19 +6,21 @@ import { umkmApi } from '@/api/umkmApi';
 import MapPicker from '@/components/MapPicker';
 import { FullPageLoader } from '@/components/skeletons';
 import LoadingOverlay from '@/components/ui/LoadingOverlay';
+import ImageUpload from '@/components/ui/ImageUpload';
+import StepIndicator from '@/components/ui/StepIndicator';
+import useMultiStep from '@/hooks/useMultiStep';
 import type { UmkmProduct } from '@/types';
 import { getErrorMessage } from '@/utils/getErrorMessage';
+import { UMKM_FORM_STEPS } from '@/constants';
 
 export default function EditUmkm() {
   const { id } = useParams<string>();
   const navigate = useNavigate();
   const { data: kategori = [] } = useCategories();
   const { data: umkmDetail, isLoading: isLoadingData } = useUmkmById(id);
+  const { step, next, prev } = useMultiStep(3);
 
-  const [step, setStep] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
-  const fotoUmkmInputRef = useRef<HTMLInputElement>(null);
-  const produkInputRefs = useRef<(HTMLInputElement | null)[]>([]);
   const [currentImage, setCurrentImage] = useState<string>('');
   const [umkmData, setUmkmData] = useState({
     nama: '', telp: '', deskripsi: '', kategori: '', alamat: '',
@@ -96,20 +98,6 @@ export default function EditUmkm() {
 
   if (isLoadingData) return <FullPageLoader message="Memuat data UMKM..." />;
 
-  const StepIndicator = () => (
-    <div className="flex flex-row md:px-20 justify-center items-center justify-between my-10">
-      {[1, 2, 3].map((s, i, arr) => (
-        <span key={s} className="contents">
-          <div className="flex flex-col items-center z-10">
-            <div className={`rounded-full w-8 h-8 flex items-center justify-center font-bold text-white ${step >= s ? 'bg-primary' : 'bg-gray-400'}`}>{s}</div>
-            <span className={`mt-2 text-xs ${step === s ? 'text-primary' : 'text-gray-400'}`}>{s === 1 ? 'Informasi' : s === 2 ? 'Alamat' : 'Produk'}</span>
-          </div>
-          {i < arr.length - 1 && <div className={`flex-1 mb-6 border-t-2 border-dashed ${step > s ? 'border-primary' : 'border-gray-300'} mx-1 md:mx-2`} />}
-        </span>
-      ))}
-    </div>
-  );
-
   return (
     <div className="py-15 md:px-10 md:py-[2%]">
       <LoadingOverlay isLoading={isLoading} message="Memperbarui UMKM..." />
@@ -118,19 +106,11 @@ export default function EditUmkm() {
           <h1 className="text-3xl font-bold text-gray-800 mb-2">Edit UMKM</h1>
           <p className="text-gray-600">Perbarui data UMKM yang sudah ada</p>
         </div>
-        <StepIndicator />
+        <StepIndicator steps={UMKM_FORM_STEPS} currentStep={step} />
         <form onSubmit={handleSubmit}>
           {step === 1 && (
             <div className="flex flex-col gap-4">
-              <div className="flex flex-col gap-2">
-                <span className="font-bold text-xl mb-2">Foto UMKM</span>
-                <div className="w-full h-50 md:h-120 border-2 border-dashed border-gray-300 rounded-lg flex items-center justify-center cursor-pointer bg-gray-50 hover:border-primary transition" onClick={() => fotoUmkmInputRef.current?.click()}>
-                  {umkmData.foto ? <img src={URL.createObjectURL(umkmData.foto)} alt="Preview" className="object-cover w-full h-full rounded-lg" />
-                    : currentImage ? <img src={currentImage} alt="Current" className="object-cover w-full h-full rounded-lg" />
-                    : <span className="text-gray-400 text-center">Klik untuk upload foto</span>}
-                </div>
-                <input ref={fotoUmkmInputRef} id="foto-umkm-input" type="file" accept="image/*" className="hidden" onChange={e => setUmkmData(d => ({ ...d, foto: e.target.files?.[0] || null }))} />
-              </div>
+              <ImageUpload value={umkmData.foto} currentImage={currentImage} onChange={(file) => setUmkmData(d => ({ ...d, foto: file }))} label="Foto UMKM" />
               <label className="block mt-2 md:mt-5"><span className="font-semibold text-lg">Nama UMKM</span><input type="text" placeholder="Nama UMKM" className="focus:border-primary input mt-2 outline-none border rounded-lg px-4 py-2 w-full mt-1" value={umkmData.nama} onChange={e => setUmkmData(d => ({ ...d, nama: e.target.value }))} required /><p className="mt-2 text-sm">Contoh. Bakso Urat Mantap</p></label>
               <label className="block mt-2 md:mt-5"><span className="font-semibold text-lg">Nomor Telepon</span><input type="text" inputMode="numeric" pattern="[0-9]*" placeholder="Nomor telepon" className="focus:border-primary input mt-2 outline-none border rounded-lg px-4 py-2 w-full mt-1" value={umkmData.telp} onChange={e => { const value = e.target.value.replace(/[^0-9]/g, ''); setUmkmData(d => ({ ...d, telp: value })); }} required /><p className="mt-2 text-sm">Contoh. 081234567890</p></label>
               <label className="block mt-2 md:mt-5"><span className="font-semibold text-lg">Deskripsi UMKM</span><textarea placeholder="Deskripsi UMKM anda" className="focus:border-primary input mt-2 outline-none border rounded-lg px-4 py-2 w-full mt-1 h-32 resize-none" value={umkmData.deskripsi} onChange={e => setUmkmData(d => ({ ...d, deskripsi: e.target.value }))} required /><p className="mt-2 text-sm">Jelaskan tentang UMKM anda</p></label>
@@ -142,7 +122,7 @@ export default function EditUmkm() {
               </label>
               <div className="flex gap-4 mt-6">
                 <button type="button" onClick={() => navigate('/admin/umkm')} className="px-6 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors">Batal</button>
-                <button type="button" onClick={() => setStep(2)} disabled={!canNext()} className="px-6 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">Selanjutnya</button>
+                <button type="button" onClick={next} disabled={!canNext()} className="px-6 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">Selanjutnya</button>
               </div>
             </div>
           )}
@@ -151,8 +131,8 @@ export default function EditUmkm() {
               <label className="block mt-2 md:mt-5"><span className="font-semibold text-lg">Alamat UMKM</span><textarea placeholder="Alamat UMKM anda" className="focus:border-primary input mt-2 outline-none border rounded-lg px-4 py-2 w-full mt-1 h-32 resize-none" value={umkmData.alamat} onChange={e => setUmkmData(d => ({ ...d, alamat: e.target.value }))} required /><p className="mt-2 text-sm">Alamat lengkap UMKM anda</p></label>
               <MapPicker onLocationSelect={(lat, lng) => setUmkmData(prev => ({ ...prev, latitude: lat, longitude: lng }))} initialLat={umkmData.latitude} initialLng={umkmData.longitude} />
               <div className="flex gap-4 mt-6">
-                <button type="button" onClick={() => setStep(1)} className="px-6 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors">Sebelumnya</button>
-                <button type="button" onClick={() => setStep(3)} disabled={!canNext()} className="px-6 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">Selanjutnya</button>
+                <button type="button" onClick={prev} className="px-6 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors">Sebelumnya</button>
+                <button type="button" onClick={next} disabled={!canNext()} className="px-6 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">Selanjutnya</button>
               </div>
             </div>
           )}
@@ -162,12 +142,7 @@ export default function EditUmkm() {
               {umkmData.produk.map((p, idx) => (
                 <div key={idx} className="relative flex flex-col md:flex-row items-center md:items-center gap-4 border-b pb-6 mb-2 w-full">
                   <div className="relative w-full md:w-auto">
-                    <div className="w-full md:w-60 h-50 md:h-40 border-2 border-dashed border-gray-300 rounded-lg flex items-center justify-center cursor-pointer bg-gray-50 hover:border-primary transition" onClick={() => produkInputRefs.current[idx]?.click()}>
-                      {p.foto ? <img src={URL.createObjectURL(p.foto)} alt="Preview" className="object-cover w-full h-full rounded-lg" />
-                        : p.currentImage ? <img src={p.currentImage} alt="Current" className="object-cover w-full h-full rounded-lg" />
-                        : <span className="text-gray-400 text-xs text-center">Foto Produk</span>}
-                    </div>
-                    <input ref={(el: HTMLInputElement | null) => { produkInputRefs.current[idx] = el; }} type="file" accept="image/*" className="hidden" onChange={e => handleProdukChange(idx, 'foto', e.target.files?.[0] || null)} />
+                    <ImageUpload value={p.foto} currentImage={p.currentImage} onChange={(file) => handleProdukChange(idx, 'foto', file)} placeholder="Foto Produk" className="w-full md:w-60 h-50 md:h-40" />
                   </div>
                   <div className="flex flex-col gap-2 w-full">
                     <input type="text" placeholder="Nama Produk" className="input outline-none font-semibold text-2xl w-full" value={p.nama} onChange={e => handleProdukChange(idx, 'nama', e.target.value)} required />
@@ -179,7 +154,7 @@ export default function EditUmkm() {
               ))}
               <button type="button" onClick={addProduk} className="text-primary rounded-full hover:pl-2 transition-all w-fit cursor-pointer">Tambah Produk →</button>
               <div className="flex gap-4 mt-6">
-                <button type="button" onClick={() => setStep(2)} className="px-6 py-2 border border-gray-300 text-gray-700 rounded-full hover:bg-gray-50 transition-colors">Sebelumnya</button>
+                <button type="button" onClick={prev} className="px-6 py-2 border border-gray-300 text-gray-700 rounded-full hover:bg-gray-50 transition-colors">Sebelumnya</button>
                 <button type="submit" disabled={!canNext() || isLoading} className="px-6 py-2 bg-primary text-white rounded-full hover:bg-primary/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">{isLoading ? 'Memperbarui...' : 'Perbarui UMKM'}</button>
               </div>
             </div>

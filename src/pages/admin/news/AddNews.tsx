@@ -3,12 +3,12 @@ import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import { useCreateNews } from '@/hooks/useNews';
 import LoadingOverlay from '@/components/ui/LoadingOverlay';
+import ImageUpload from '@/components/ui/ImageUpload';
 
 export default function AddNews() {
   const navigate = useNavigate();
   const createNews = useCreateNews();
   const [formData, setFormData] = useState({ image: null as File | null, title: '', content: '' });
-  const imageInputRef = useRef<HTMLInputElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   useEffect(() => {
@@ -43,19 +43,7 @@ export default function AddNews() {
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">Gambar Berita *</label>
-            <div className="flex items-center space-x-4">
-              <button type="button" onClick={() => imageInputRef.current?.click()} className="flex-shrink-0 w-full h-100 mt-2 border-2 border-dashed border-gray-300 rounded-lg flex items-center justify-center hover:border-primary transition-colors cursor-pointer">
-                {formData.image ? (
-                  <img src={URL.createObjectURL(formData.image)} alt="Preview" className="w-full h-full object-cover rounded-lg" />
-                ) : (
-                  <div className="text-center">
-                    <svg className="mx-auto h-8 w-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" /></svg>
-                    <p className="mt-1 text-xs text-gray-500">Upload Gambar</p>
-                  </div>
-                )}
-              </button>
-              <div><input ref={imageInputRef} type="file" accept="image/*" onChange={e => setFormData(d => ({ ...d, image: e.target.files?.[0] || null }))} className="hidden" /></div>
-            </div>
+            <ImageUpload value={formData.image} onChange={(file) => setFormData(d => ({ ...d, image: file }))} className="w-full h-100 mt-2" placeholder="Upload Gambar" />
           </div>
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">Judul Berita *</label>

@@ -1,26 +1,29 @@
-import { useState, useRef } from 'react';
+import { useState } from 'react';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import useNavigation from '@/hooks/useNavigation';
 import toast from 'react-hot-toast';
 import MapPicker from '@/components/MapPicker';
 import LoadingOverlay from '@/components/ui/LoadingOverlay';
+import ImageUpload from '@/components/ui/ImageUpload';
+import StepIndicator from '@/components/ui/StepIndicator';
+import useMultiStep from '@/hooks/useMultiStep';
 import { useCategories, useUmkmPreview } from '@/hooks/useUmkm';
 import { umkmApi } from '@/api/umkmApi';
-import { WA_ADMIN_NUMBER } from '@/constants';
+import { WA_ADMIN_NUMBER, UMKM_FORM_STEPS } from '@/constants';
 import { getErrorMessage } from '@/utils/getErrorMessage';
+
+
 
 export default function Register() {
   const { goToUmkmDetail, goToUmkm } = useNavigation();
   const { data: kategori = [] } = useCategories();
   const { data: umkmPreview = [] } = useUmkmPreview();
+  const { step, next, prev, isFirst, isLast } = useMultiStep(3);
 
-  const [step, setStep] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [umkmName, setUmkmName] = useState('');
-  const fotoUmkmInputRef = useRef<HTMLInputElement>(null);
-  const produkInputRefs = useRef<(HTMLInputElement | null)[]>([]);
   const [umkmData, setUmkmData] = useState({
     foto: null as File | null, nama: '', telp: '', deskripsi: '', kategori: '', alamat: '',
     latitude: -7.2591052, longitude: 112.6764528,
@@ -98,27 +101,11 @@ export default function Register() {
           <div className="w-full md:w-[70%]">
             <h1 className="text-2xl text-center font-bold mb-2">Registrasi UMKM</h1>
             <p className="mb-6 text-center md:text-md text-sm">Isi form di bawah ini untuk mendaftarkan UMKM anda</p>
-            <div className="flex flex-row md:px-20 justify-center items-center justify-between my-10">
-              {[1, 2, 3].map((s, i, arr) => (
-                <span key={s} className="contents">
-                  <div className="flex flex-col items-center z-10">
-                    <div className={`rounded-full w-8 h-8 flex items-center justify-center font-bold text-white ${step >= s ? 'bg-primary' : 'bg-gray-400'}`}>{s}</div>
-                    <span className={`mt-2 text-xs ${step === s ? 'text-primary' : 'text-gray-400'}`}>{s === 1 ? 'Informasi' : s === 2 ? 'Alamat' : 'Produk'}</span>
-                  </div>
-                  {i < arr.length - 1 && <div className={`flex-1 mb-6 border-t-2 border-dashed ${step > s ? 'border-primary' : 'border-gray-300'} mx-1 md:mx-2`} />}
-                </span>
-              ))}
-            </div>
+            <StepIndicator steps={UMKM_FORM_STEPS} currentStep={step} />
             <form onSubmit={handleSubmit}>
               {step === 1 && (
                 <div className="flex flex-col gap-4">
-                  <div className="flex flex-col gap-2">
-                    <span className="font-bold text-xl mb-2">Foto UMKM</span>
-                    <div className="w-full h-50 md:h-120 border-2 border-dashed border-gray-300 rounded-lg flex items-center justify-center cursor-pointer bg-gray-50 hover:border-primary transition" onClick={() => fotoUmkmInputRef.current?.click()}>
-                      {umkmData.foto ? <img src={URL.createObjectURL(umkmData.foto)} alt="Preview" className="object-cover w-full h-full rounded-lg" /> : <span className="text-gray-400 text-center">Klik untuk upload foto</span>}
-                    </div>
-                    <input ref={fotoUmkmInputRef} id="foto-umkm-input" type="file" accept="image/*" className="hidden" onChange={e => setUmkmData(d => ({ ...d, foto: e.target.files?.[0] || null }))} />
-                  </div>
+                  <ImageUpload value={umkmData.foto} onChange={(file) => setUmkmData(d => ({ ...d, foto: file }))} label="Foto UMKM" />
                   <label className="block mt-2 md:mt-5"><span className="font-semibold text-lg">Nama UMKM</span><input type="text" placeholder="Nama UMKM anda" className="focus:border-primary input mt-2 outline-none border rounded-lg px-4 py-2 w-full mt-1" value={umkmData.nama} onChange={e => setUmkmData(d => ({ ...d, nama: e.target.value }))} required /><p className="mt-2 text-sm">Contoh. Bakso Urat Mantap</p></label>
                   <label className="block"><span className="font-semibold text-lg">Nomor Telepon</span><input type="text" inputMode="numeric" pattern="[0-9]*" placeholder="No telepon bisnis UMKM anda" className="input mt-2 focus:border-primary outline-none border rounded-lg px-4 py-2 w-full mt-1" value={umkmData.telp} onChange={e => { const value = e.target.value.replace(/[^0-9]/g, ''); setUmkmData(d => ({ ...d, telp: value })); }} required /><p className="mt-2 text-sm">Contoh. 085156203867</p></label>
                   <label className="flex flex-col w-full"><span className="font-semibold text-lg">Deskripsi Singkat</span><textarea placeholder="Contoh. Berdiri Sejak 1990, Bakso Urat Mantap tetap konsisten menyediakan rasa yang nikmat." className="textarea textarea-bordered w-full mt-1 h-40 border outline-none focus:border-primary rounded-md p-4 resize-none" value={umkmData.deskripsi} onChange={e => setUmkmData(d => ({ ...d, deskripsi: e.target.value }))} required /></label>
@@ -142,10 +129,7 @@ export default function Register() {
                   {umkmData.produk.map((p, idx) => (
                     <div key={idx} className="relative flex flex-col md:flex-row items-center md:items-center gap-4 border-b pb-6 mb-2 w-full">
                       <div className="relative w-full md:w-auto">
-                        <div className="w-full md:w-60 h-50 md:h-40 border-2 border-dashed border-gray-300 rounded-lg flex items-center justify-center cursor-pointer bg-gray-50 hover:border-primary transition" onClick={() => produkInputRefs.current[idx]?.click()}>
-                          {p.foto ? <img src={URL.createObjectURL(p.foto)} alt="Preview" className="object-cover w-full h-full rounded-lg" /> : <span className="text-gray-400 text-xs text-center">Foto Produk</span>}
-                        </div>
-                        <input ref={el => { produkInputRefs.current[idx] = el; }} type="file" accept="image/*" className="hidden" onChange={e => handleProdukChange(idx, 'foto', e.target.files?.[0] || null)} />
+                        <ImageUpload value={p.foto} onChange={(file) => handleProdukChange(idx, 'foto', file)} placeholder="Foto Produk" className="w-full md:w-60 h-50 md:h-40" />
                       </div>
                       <div className="flex flex-col gap-2 w-full">
                         <input type="text" placeholder="Nama Produk" className="input outline-none font-semibold text-2xl w-full" value={p.nama} onChange={e => handleProdukChange(idx, 'nama', e.target.value)} required />
@@ -159,9 +143,9 @@ export default function Register() {
                 </div>
               )}
               <div className="flex gap-4 mt-8">
-                {step > 1 && <button type="button" onClick={() => setStep(s => s - 1)} className="px-5 py-2 rounded-full bg-primary/10 border text-primary cursor-pointer border-primary">Kembali</button>}
-                {step < 3 && <button type="button" onClick={() => canNext() && setStep(s => s + 1)} disabled={!canNext()} className="px-10 py-2 rounded-full cursor-pointer bg-primary text-white disabled:bg-primary/70">Lanjut</button>}
-                {step === 3 && <button type="submit" disabled={!canNext()} className="px-10 py-2 rounded-full bg-primary cursor-pointer text-white disabled:bg-primary/70">Daftar</button>}
+                {!isFirst && <button type="button" onClick={prev} className="px-5 py-2 rounded-full bg-primary/10 border text-primary cursor-pointer border-primary">Kembali</button>}
+                {!isLast && <button type="button" onClick={() => canNext() && next()} disabled={!canNext()} className="px-10 py-2 rounded-full cursor-pointer bg-primary text-white disabled:bg-primary/70">Lanjut</button>}
+                {isLast && <button type="submit" disabled={!canNext()} className="px-10 py-2 rounded-full bg-primary cursor-pointer text-white disabled:bg-primary/70">Daftar</button>}
               </div>
             </form>
           </div>
@@ -183,14 +167,14 @@ export default function Register() {
                     </div>
                     <div className="mt-5 flex flex-row items-center justify-between">
                       <div className="flex flex-col items-start"><p className="text-sm">Mulai dari</p><p className="text-lg font-bold">Rp {umkm.hargaTermurah}</p></div>
-                      <div onClick={() => goToUmkmDetail(umkm.id)} className="cursor-pointer hover:bg-primary/80 transition-all flex px-5 py-1 font-normal text-white rounded-full justify-center bg-primary items-center w-fit"><p>Lihat</p></div>
+                      <button onClick={() => goToUmkmDetail(umkm.id)} className="cursor-pointer hover:bg-primary/80 transition-all flex px-5 py-1 font-normal text-white rounded-full justify-center bg-primary items-center w-fit"><p>Lihat</p></button>
                     </div>
                   </div>
                 </div>
               ))}
             </div>
             <div className="w-fit flex flex-row w-full mt-5 justify-center">
-              <div onClick={goToUmkm} className="border cursor-pointer hover:scale-105 transition-all py-2 px-5 rounded-full"><p>Lihat Selengkapnya...</p></div>
+              <button onClick={goToUmkm} className="border cursor-pointer hover:scale-105 transition-all py-2 px-5 rounded-full"><p>Lihat Selengkapnya...</p></button>
             </div>
           </div>
         </div>
