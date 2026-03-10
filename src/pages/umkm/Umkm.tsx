@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import RouterNavigation from '../../utils/navigation';
+import useNavigation from '../../hooks/useNavigation';
 import apiClient from '../../api/client';
 import toast from 'react-hot-toast';
 
@@ -58,7 +58,7 @@ const UmkmGridSkeleton = () => (
 export default function UMKM() {
     const [showModal, setShowModal] = useState(false);
     const [category,setCategory] = useState<any>([])
-    const {goToUMKMDetail} = RouterNavigation()
+    const {goToUMKMDetail} = useNavigation()
     const [umkm,setUmkm] = useState<any>([])
     const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
     const [search, setSearch] = useState('');

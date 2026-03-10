@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from "react"
 import Footer from "../../components/Footer"
-import RouterNavigation from "../../utils/navigation"
+import useNavigation from "../../hooks/useNavigation"
 import apiClient from "../../api/client"
 import toast from "react-hot-toast"
 import { formatDate } from "../../utils/formatDate"
@@ -53,7 +53,7 @@ const NewsGridSkeleton = () => (
 );
 
 export default function Berita() {
-    const {goToBeritaDetail} = RouterNavigation()
+    const {goToBeritaDetail} = useNavigation()
     const [news,setNews] = useState<any>([])
     const [page, setPage] = useState(1);
     const perPage = 6;

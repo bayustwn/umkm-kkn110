@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
 import Footer from "../../../components/Footer";
 import Navbar from "../../../components/Navbar";
-import RouterNavigation from "../../../utils/navigation";
+import useNavigation from "../../../hooks/useNavigation";
 import toast from "react-hot-toast";
 import apiClient from "../../../api/client";
 import { useEffect, useState, useRef } from "react";
@@ -9,7 +9,7 @@ import { formatDate } from "../../../utils/formatDate";
 
 
 export default function BeritaDetail() {
-    const {goToBeritaDetail,goToBerita} = RouterNavigation()
+    const {goToBeritaDetail,goToBerita} = useNavigation()
     const {id} = useParams()
     const [news,setNews] = useState<any>(null)
     const [otherNews,setOtherNews] = useState<any>([])

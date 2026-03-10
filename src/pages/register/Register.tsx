@@ -1,13 +1,13 @@
 import { useState, useRef, useEffect } from 'react';
 import Navbar from '../../components/Navbar';
 import Footer from '../../components/Footer';
-import RouterNavigation from '../../utils/navigation';
+import useNavigation from '../../hooks/useNavigation';
 import apiClient from '../../api/client';
 import toast from 'react-hot-toast';
 import MapPicker from '../../components/MapPicker';
 
 export default function Register() {
-    const { goToUMKMDetail, goToUMKM } = RouterNavigation();
+    const { goToUMKMDetail, goToUMKM } = useNavigation();
     const [step, setStep] = useState(1);
     const [umkmData, setUmkmData] = useState({
         foto: null as File | null,

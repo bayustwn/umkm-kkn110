@@ -17,6 +17,20 @@ export const newsApi = {
     return res.data.data;
   },
 
+  create: async (formData: FormData): Promise<News> => {
+    const res = await apiClient.post('/news/upload', formData, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+    });
+    return res.data.data;
+  },
+
+  update: async (id: string, formData: FormData): Promise<News> => {
+    const res = await apiClient.patch(`/news/edit/${id}`, formData, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+    });
+    return res.data.data;
+  },
+
   delete: async (id: string): Promise<void> => {
     await apiClient.delete(`/news/${id}`);
   },

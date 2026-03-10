@@ -34,9 +34,39 @@ export const umkmApi = {
     return res.data.data;
   },
 
+  update: async (id: string, formData: FormData): Promise<Umkm> => {
+    const res = await apiClient.patch(`/umkm/${id}`, formData, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+    });
+    return res.data.data;
+  },
+
+  delete: async (id: string): Promise<void> => {
+    await apiClient.delete(`/umkm/${id}`);
+  },
+
+  approve: async (id: string): Promise<void> => {
+    await apiClient.patch(`/umkm/approve/${id}`);
+  },
+
   registerProduct: async (formData: FormData): Promise<void> => {
     await apiClient.post('/umkm/product', formData, {
       headers: { 'Content-Type': 'multipart/form-data' },
     });
+  },
+
+  updateProduct: async (id: string, formData: FormData): Promise<void> => {
+    await apiClient.patch(`/umkm/product/${id}`, formData, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+    });
+  },
+
+  createCategory: async (name: string): Promise<Category> => {
+    const res = await apiClient.post('/umkm/category', { name });
+    return res.data.data;
+  },
+
+  deleteCategory: async (id: string): Promise<void> => {
+    await apiClient.delete(`/umkm/category/${id}`);
   },
 };
